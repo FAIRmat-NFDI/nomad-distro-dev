@@ -2,6 +2,13 @@ Start by forking main repository (/fair_nfdi/dev_distro) that will house all you
 
 # NOMAD Dev Distribution
 
+Benefits
+
+- One-step installations: Install everything at once with editable mode.
+- Centralized codebase: Easier navigation and searching across projects.
+- Better editor support: Improved autocompletion and refactoring.
+- Consistent tooling: Shared linting, testing, and formatting.
+
 Below are instructions for how to create a dev env for developing NOMAD and nomad plugins.
 
 ### Basic infra
@@ -17,7 +24,7 @@ Below are instructions for how to create a dev env for developing NOMAD and noma
 3. Clone the repository.
 
 ```bash
-git clone https://github.com/your-username/dev_distro.git
+git clone https://github.com/<your-username>/dev_distro.git
 cd dev_distro
 ```
 
@@ -67,6 +74,12 @@ Add the plugin repositories to the packages/ directory, either as submodules.
 git submodule add https://github.com/package_name.git packages/package_name
 ```
 
+For example:
+
+```bash
+git submodule add https://github.com/nomad-coe/atomistic-parsers.git packages/nomad-parser-plugins-atomistic
+```
+
 Repeat for all local dev packages (e.g., nomad-parser-plugins-electronic, nomad-parser-plugins-atomistic, etc.).
 
 2. Modify pyproject.toml
@@ -83,6 +96,30 @@ nomad-parser-plugins-electronic = { workspace = true }
 nomad-parser-plugins-atomistic = { workspace = true }
 nomad-parser-plugins-workflow = { workspace = true }
 nomad-parser-plugins-database = { workspace = true }
+...
+```
+
+> [!NOTE]
+> If you're developing a plugin not listed under [project.dependencies], you must first add it as a dependency. You can do this with uv:
+
+```bash
+uv add nomad-measurements
+uv add https://github.com/FAIRmat-NFDI/nomad-parser-vasp --branch develop
+```
+
+After adding the dependencies, update the [tool.uv.sources] section in your pyproject.toml file to reflect the new plugins:
+
+```toml
+dependencies = [
+  ...
+  "nomad-measurements",
+  "nomad-parser-vasp",
+]
+
+[tool.uv.sources]
+...
+nomad-measurements = { workspace = true }
+nomad-parser-vasp = { workspace = true }
 ```
 
 3. Install dependencies
@@ -92,6 +129,10 @@ Run the following command to install all dependencies, including the local packa
 ```bash
 uv sync
 ```
+
+> [!NOTE]
+> `uv sync` and `uv run` automatically manages the virtual environment for you. There's no need to manually create or activate a venv.
+> Any `uv run` commands will automatically use the correct environment by default.
 
 4. Running `nomad` api app.
 
@@ -172,6 +213,19 @@ To add a new package, follow setup guide and add it into the packages/ directory
 uv sync
 ```
 
+5. Modifying dependencies in packages.
+
+```bash
+uv add --package <PACKAGE_NAME> <DEPENDENCY_NAME>
+```
+
+For example:
+
+```bash
+uv add --package nomad-measurements "pandas>=2.0"
+uv remove --package nomad-lab numpy
+```
+
 6. Keeping Up-to-Date
 
 To pull updates from the main repository and submodules, run:
@@ -186,8 +240,39 @@ Afterward, sync your environment:
 uv sync
 ```
 
-Benefits
+### Updating the fork
 
-- Single-Step Installation: Install all dependencies and local plugins with one command.
-- Editable Mode: Local plugins are installed in editable mode, allowing immediate reflection of code changes.
-- Centralized Development: Manage all your projects in one monorepo.
+To keep your fork up to date with the latest changes from the original repository (upstream), follow these steps:
+
+1. Add the upstream Remote
+   If you haven't already, add the original repository as upstream:
+
+```bash
+git remote add upstream https://github.com/FAIRmat-NFDI/dev_distro.git
+```
+
+2. Fetch the Latest Changes from upstream
+   Fetch the latest commits from the upstream repository:
+
+```bash
+git fetch upstream
+```
+
+3. Merge upstream/main into Your Local Branch
+   Switch to the local branch (e.g., main) you want to update, and merge the changes from upstream/main:
+
+```bash
+git checkout main
+git merge upstream/main
+```
+
+Resolve any merge conflicts if necessary, and commit the merge.
+
+4. Push the Updates to Your Fork
+   After merging, push the updated branch to your fork on GitHub:
+
+```bash
+git push origin main
+```
+
+By following these steps, you ensure that your fork stays in sync with the latest changes from the original repository.
