@@ -1,3 +1,5 @@
+Start by forking main repository (/fair_nfdi/dev_distro) that will house all your plugins.
+
 # NOMAD Dev Distribution
 
 Below are instructions for how to create a dev env for developing NOMAD and nomad plugins.
@@ -13,6 +15,11 @@ Below are instructions for how to create a dev env for developing NOMAD and noma
    (`brew install uv` on macOS or `dnf install uv` on Fedora).
 
 3. Clone the repository.
+
+```bash
+git clone https://github.com/your-username/dev_distro.git
+cd dev_distro
+```
 
 4. _On Linux only,_ recursively change the owner of the `.volumes` directory to the nomad user (1000)
 
@@ -46,34 +53,23 @@ In this example, we'll set up the development environment for a developer workin
 
 ### Step-by-Step Setup
 
-1. Clone the Monorepo
-
-Start by forking and cloning the main repository (e.g., dev_distro) that will house all your plugins.
+1. Update submodules
 
 ```bash
-git clone https://github.com/your-username/dev_distro.git
-cd dev_distro
+git submodule update --init --recursive
 ```
 
-2. Add Local Plugins
+2. Add local plugins
 
-Add the parser plugin repositories to the packages/ directory, either as submodules or direct clones.
-
-Option 1: Using git submodule:
+Add the plugin repositories to the packages/ directory, either as submodules.
 
 ```bash
 git submodule add https://github.com/package_name.git packages/package_name
 ```
 
-Option 2: Using git clone:
+Repeat for all local dev packages (e.g., nomad-parser-plugins-electronic, nomad-parser-plugins-atomistic, etc.).
 
-```bash
-git clone https://github.com/package_name.git packages/package_name
-```
-
-Repeat for all local dev packages (e.g., nomad-lab, nomad-parser-plugins-electronic, nomad-parser-plugins-atomistic, etc.).
-
-3. Modify pyproject.toml
+2. Modify pyproject.toml
 
 Ensure uv recognizes the local packages by modifying the `pyproject.toml`:
 
@@ -89,35 +85,56 @@ nomad-parser-plugins-workflow = { workspace = true }
 nomad-parser-plugins-database = { workspace = true }
 ```
 
-4. Install Dependencies
+3. Install dependencies
 
 Run the following command to install all dependencies, including the local packages in editable mode:
 
 ```bash
-uv sync --all-extras
+uv sync
 ```
 
-5. Running `nomad`.
+4. Running `nomad` api app.
 
 ```bash
-uv run nomad --help
+uv run nomad admin run appworker
+```
+
+5. Setup GUI
+
+```bash
+cd packages/nomad-FAIR/gui
+uv run python -m nomad.cli dev gui-env > .env.development
+yarn
+```
+
+6. Start nomad gui
+
+```bash
+cd packages/nomad-FAIR/gui
+yarn start
 ```
 
 ### Day-to-Day Development
 
 After the initial setup, here’s how to manage your daily development tasks.
 
-1. Installing Dependencies
+1. Update submodules
+
+```bash
+git submodule update --init --recursive
+```
+
+2. Installing dependencies
 
 If you've added new dependencies or made changes to your environment, install or update them by running:
 
 ```bash
-uv sync --all-extras
+uv sync
 ```
 
 This will sync all packages and ensure everything is installed in editable mode.
 
-2. Running Tests
+3. Running tests
 
 To run tests across the project, use the uv run command to execute pytest in the relevant directory. For instance:
 
@@ -127,11 +144,11 @@ uv run --directory packages/package_name pytest
 
 This allows you to run tests for a specific parser or package. For running tests across all packages, simply repeat the command for each directory.
 
-3. Making Code Changes
+4. Making code changes
 
 Since all packages are installed in editable mode, changes you make to the code are immediately reflected. Edit your code and rerun tests or the application as needed, without needing to reinstall the packages.
 
-4. Linting & Code Formatting
+5. Linting & code formatting
 
 To check for code style issues using ruff, run the following command:
 
@@ -147,12 +164,12 @@ For auto-formatting:
 uv run ruff format .
 ```
 
-5. Adding New Plugins
+5. Adding new plugins
 
 To add a new package, follow setup guide and add it into the packages/ directory and ensure it's listed in pyproject.toml under [tool.uv.sources]. Then, install it by running:
 
 ```bash
-uv sync --all-extras
+uv sync
 ```
 
 6. Keeping Up-to-Date
@@ -167,7 +184,7 @@ git pull --recurse-submodules
 Afterward, sync your environment:
 
 ```bash
-uv sync --all-extras
+uv sync
 ```
 
 Benefits

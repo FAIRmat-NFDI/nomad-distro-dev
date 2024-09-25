@@ -17,10 +17,8 @@ version = "0.1"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }
-dependencies = ["nomad-lab[parsing, infrastructure]>=1.3.4"]
-
-[project.optional-dependencies]
-plugins = [
+dependencies = [
+  "nomad-lab[parsing, infrastructure]>=1.3.4",
   "perovskite-solar-cell-database @ git+https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database.git@f394d21abafeb659729af0c94e5f90949fce01c1",
   "nomad-porous-materials @ git+https://github.com/FAIRmat-NFDI/nomad-porous-materials.git@522f4a3208077f534f1c5e886527ee2104283d0b",
   "nomad-aitoolkit @ git+https://github.com/FAIRmat-NFDI/nomad-aitoolkit.git@b203f8eb28dc4b6771a39d5c5b7ad3d9d8583ac8",
@@ -40,17 +38,18 @@ plugins = [
   "nomad-parser-plugins-workflow>=1.0",
   "nomad-parser-plugins-database>=1.0",
 ]
-dev = ["nomad-lab[parsing, infrastructure, dev]>=1.3.4"]
 
 [tool.uv.workspace]
 members = ["packages/*"]
 
 [tool.uv.sources]
+nomad-lab = { workspace = true }
 
 [tool.uv]
 extra-index-url = [
   "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple",
 ]
+dev-dependencies = ["nomad-lab[parsing, infrastructure, dev]>=1.3.4"]
 constraint-dependencies = ["hyperspy>=1.7.6"]
 
 [tool.setuptools.packages.find]

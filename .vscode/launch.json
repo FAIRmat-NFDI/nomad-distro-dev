@@ -1,0 +1,77 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "gui",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/packages/nomad-FAIR/gui"
+    },
+    {
+      "name": "app",
+      "type": "python",
+      "request": "launch",
+      "justMyCode": false,
+      "program": "${workspaceFolder}/.venv/bin/nomad",
+      "args": ["admin", "run", "app"]
+    },
+    {
+      "name": "worker",
+      "type": "python",
+      "request": "launch",
+      "justMyCode": false,
+      "program": "${workspaceFolder}/.venv/bin/nomad",
+      "args": ["admin", "run", "worker"]
+    },
+    {
+      "name": "hub",
+      "type": "python",
+      "request": "launch",
+      "justMyCode": false,
+      "program": "${workspaceFolder}/.venv/bin/nomad",
+      "args": ["admin", "run", "hub"]
+    },
+    {
+      "name": "nomad lab tests",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/.venv/bin/pytest",
+      "justMyCode": false,
+      "env": {
+        "_PYTEST_RAISE": "1"
+      },
+      "args": ["-sv", "packages/nomad-FAIR/tests"]
+    },
+    {
+      "name": "nomad parse",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/.venv/bin/nomad",
+      "justMyCode": false,
+      "args": [
+        "parse",
+        "--show-archive",
+        "packacges/nomad-FAIR/tests/data/parsers/vasp/vasp.xml"
+      ]
+    },
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}"
+    },
+    {
+      "name": "Python: Attach",
+      "type": "python",
+      "request": "attach",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "${workspaceFolder}",
+      "port": 3000,
+      "secret": "my_secret",
+      "host": "localhost"
+    }
+  ]
+}

@@ -8,6 +8,10 @@ resolution-markers = [
 ]
 
 [manifest]
+members = [
+    "nomad-distribution",
+    "nomad-lab",
+]
 constraints = [{ name = "hyperspy", specifier = ">=1.7.6" }]
 
 [[package]]
@@ -3679,16 +3683,9 @@ name = "nomad-distribution"
 version = "0.1"
 source = { editable = "." }
 dependencies = [
-    { name = "nomad-lab", extra = ["infrastructure", "parsing"] },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "nomad-lab", extra = ["dev", "infrastructure", "parsing"] },
-]
-plugins = [
     { name = "eelsdbconverter" },
     { name = "nomad-aitoolkit" },
+    { name = "nomad-lab", extra = ["infrastructure", "parsing"] },
     { name = "nomad-normalizer-plugin-bandstructure" },
     { name = "nomad-normalizer-plugin-dos" },
     { name = "nomad-normalizer-plugin-simulation-workflow" },
@@ -3707,29 +3704,36 @@ plugins = [
     { name = "pynxtools", extra = ["convert"] },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "nomad-lab", extra = ["dev", "infrastructure", "parsing"] },
+]
+
 [package.metadata]
 requires-dist = [
-    { name = "eelsdbconverter", marker = "extra == 'plugins'", git = "https://github.com/nomad-coe/nomad-parser-eelsdb.git?rev=entry-point" },
-    { name = "nomad-aitoolkit", marker = "extra == 'plugins'", git = "https://github.com/FAIRmat-NFDI/nomad-aitoolkit.git?rev=b203f8eb28dc4b6771a39d5c5b7ad3d9d8583ac8#b203f8eb28dc4b6771a39d5c5b7ad3d9d8583ac8" },
-    { name = "nomad-lab", extras = ["parsing", "infrastructure"], specifier = ">=1.3.4" },
-    { name = "nomad-lab", extras = ["parsing", "infrastructure", "dev"], marker = "extra == 'dev'", specifier = ">=1.3.4" },
-    { name = "nomad-normalizer-plugin-bandstructure", marker = "extra == 'plugins'", specifier = ">=1.0" },
-    { name = "nomad-normalizer-plugin-dos", marker = "extra == 'plugins'", specifier = ">=1.0" },
-    { name = "nomad-normalizer-plugin-simulation-workflow", marker = "extra == 'plugins'", specifier = ">=1.0" },
-    { name = "nomad-normalizer-plugin-soap", marker = "extra == 'plugins'", specifier = ">=1.0" },
-    { name = "nomad-normalizer-plugin-spectra", marker = "extra == 'plugins'", specifier = ">=1.0" },
-    { name = "nomad-normalizer-plugin-system", marker = "extra == 'plugins'", specifier = ">=1.0" },
-    { name = "nomad-parser-plugins-atomistic", marker = "extra == 'plugins'", specifier = ">=1.0" },
-    { name = "nomad-parser-plugins-database", marker = "extra == 'plugins'", specifier = ">=1.0" },
-    { name = "nomad-parser-plugins-electronic", marker = "extra == 'plugins'", specifier = ">=1.0" },
-    { name = "nomad-parser-plugins-workflow", marker = "extra == 'plugins'", specifier = ">=1.0" },
-    { name = "nomad-porous-materials", marker = "extra == 'plugins'", git = "https://github.com/FAIRmat-NFDI/nomad-porous-materials.git?rev=522f4a3208077f534f1c5e886527ee2104283d0b#522f4a3208077f534f1c5e886527ee2104283d0b" },
-    { name = "nomad-schema-plugin-run", marker = "extra == 'plugins'", specifier = ">=1.0.1" },
-    { name = "nomad-schema-plugin-simulation-workflow", marker = "extra == 'plugins'", specifier = ">=1.0.1" },
-    { name = "nomad-simulations", marker = "extra == 'plugins'", specifier = "==0.0.1" },
-    { name = "perovskite-solar-cell-database", marker = "extra == 'plugins'", git = "https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database.git?rev=f394d21abafeb659729af0c94e5f90949fce01c1#f394d21abafeb659729af0c94e5f90949fce01c1" },
-    { name = "pynxtools", extras = ["convert"], marker = "extra == 'plugins'", specifier = "==0.5.0" },
+    { name = "eelsdbconverter", git = "https://github.com/nomad-coe/nomad-parser-eelsdb.git?rev=entry-point" },
+    { name = "nomad-aitoolkit", git = "https://github.com/FAIRmat-NFDI/nomad-aitoolkit.git?rev=b203f8eb28dc4b6771a39d5c5b7ad3d9d8583ac8#b203f8eb28dc4b6771a39d5c5b7ad3d9d8583ac8" },
+    { name = "nomad-lab", extras = ["parsing", "infrastructure"], editable = "packages/nomad-FAIR" },
+    { name = "nomad-normalizer-plugin-bandstructure", specifier = ">=1.0" },
+    { name = "nomad-normalizer-plugin-dos", specifier = ">=1.0" },
+    { name = "nomad-normalizer-plugin-simulation-workflow", specifier = ">=1.0" },
+    { name = "nomad-normalizer-plugin-soap", specifier = ">=1.0" },
+    { name = "nomad-normalizer-plugin-spectra", specifier = ">=1.0" },
+    { name = "nomad-normalizer-plugin-system", specifier = ">=1.0" },
+    { name = "nomad-parser-plugins-atomistic", specifier = ">=1.0" },
+    { name = "nomad-parser-plugins-database", specifier = ">=1.0" },
+    { name = "nomad-parser-plugins-electronic", specifier = ">=1.0" },
+    { name = "nomad-parser-plugins-workflow", specifier = ">=1.0" },
+    { name = "nomad-porous-materials", git = "https://github.com/FAIRmat-NFDI/nomad-porous-materials.git?rev=522f4a3208077f534f1c5e886527ee2104283d0b#522f4a3208077f534f1c5e886527ee2104283d0b" },
+    { name = "nomad-schema-plugin-run", specifier = ">=1.0.1" },
+    { name = "nomad-schema-plugin-simulation-workflow", specifier = ">=1.0.1" },
+    { name = "nomad-simulations", specifier = "==0.0.1" },
+    { name = "perovskite-solar-cell-database", git = "https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database.git?rev=f394d21abafeb659729af0c94e5f90949fce01c1#f394d21abafeb659729af0c94e5f90949fce01c1" },
+    { name = "pynxtools", extras = ["convert"], specifier = "==0.5.0" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "nomad-lab", extras = ["parsing", "infrastructure", "dev"], editable = "packages/nomad-FAIR" }]
 
 [[package]]
 name = "nomad-dos-fingerprints"
@@ -3746,7 +3750,7 @@ wheels = [
 [[package]]
 name = "nomad-lab"
 version = "1.3.7"
-source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
+source = { editable = "packages/nomad-FAIR" }
 dependencies = [
     { name = "aniso8601" },
     { name = "ase" },
@@ -3787,7 +3791,6 @@ dependencies = [
     { name = "wrapt" },
     { name = "xarray" },
 ]
-sdist = { url = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/files/d091db52510e18f3a71f266031414c9eceb1f981a27a80e219d896767de72566/nomad-lab-1.3.7.tar.gz", hash = "sha256:d091db52510e18f3a71f266031414c9eceb1f981a27a80e219d896767de72566" }
 
 [package.optional-dependencies]
 dev = [
@@ -3865,6 +3868,118 @@ parsing = [
     { name = "nomad-openbis" },
     { name = "python-magic-bin", marker = "sys_platform == 'win32'" },
     { name = "rdkit" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "aiosmtpd", marker = "extra == 'dev'" },
+    { name = "aniso8601", specifier = ">=7.0.0" },
+    { name = "ase", specifier = "~=3.22.0" },
+    { name = "asgiref", marker = "extra == 'infrastructure'", specifier = "~=3.5" },
+    { name = "astroid", marker = "extra == 'dev'", specifier = ">=2.5.1" },
+    { name = "bagit", marker = "extra == 'infrastructure'", specifier = "==1.8.1" },
+    { name = "basicauth", marker = "extra == 'infrastructure'", specifier = "==0.4.1" },
+    { name = "beautifulsoup4", marker = "extra == 'infrastructure'" },
+    { name = "bitarray", specifier = ">=2.3.5" },
+    { name = "build", marker = "extra == 'dev'" },
+    { name = "cachetools", specifier = ">=4.2.4" },
+    { name = "celery", marker = "extra == 'infrastructure'" },
+    { name = "click", specifier = ">=7.1.2" },
+    { name = "devtools", marker = "extra == 'dev'" },
+    { name = "dockerspawner", marker = "extra == 'infrastructure'", specifier = "==13.0.0" },
+    { name = "docstring-parser", specifier = ">=0.12" },
+    { name = "elasticsearch", marker = "extra == 'infrastructure'", specifier = "==7.17.1" },
+    { name = "elasticsearch-dsl", specifier = "==7.4.0" },
+    { name = "essential-generators", marker = "extra == 'dev'", specifier = "==1.0" },
+    { name = "fastapi", marker = "extra == 'infrastructure'", specifier = "<0.100" },
+    { name = "filelock", marker = "extra == 'infrastructure'", specifier = "==3.3.1" },
+    { name = "gitpython", marker = "extra == 'infrastructure'" },
+    { name = "gunicorn", marker = "extra == 'infrastructure'", specifier = ">=21.2.0,<22.0.0" },
+    { name = "h5grove", extras = ["fastapi"], marker = "extra == 'infrastructure'", specifier = "==1.3.0" },
+    { name = "h5py", specifier = ">=3.6.0" },
+    { name = "h5py", marker = "extra == 'parsing'", specifier = "==3.11.0" },
+    { name = "hjson", specifier = ">=3.0.2" },
+    { name = "html5lib", marker = "extra == 'infrastructure'", specifier = "==1.1" },
+    { name = "httpx", specifier = ">=0.23.3" },
+    { name = "importlib-metadata", specifier = "~=7.1.0" },
+    { name = "inflection", marker = "extra == 'infrastructure'", specifier = "==0.5.1" },
+    { name = "itsdangerous", marker = "extra == 'infrastructure'", specifier = ">=2.1.2" },
+    { name = "jmespath", specifier = ">=0.10.0" },
+    { name = "jsonschema", extras = ["format"], marker = "extra == 'infrastructure'", specifier = "==4.17.3" },
+    { name = "jupyterhub", marker = "extra == 'infrastructure'", specifier = "==4.0.2" },
+    { name = "kaleido", specifier = "==0.2.1" },
+    { name = "lxml", specifier = ">=5.2" },
+    { name = "lxml-html-clean", specifier = ">=0.1.0" },
+    { name = "m2r", marker = "extra == 'infrastructure'", specifier = "==0.2.1" },
+    { name = "markupsafe", marker = "extra == 'dev'" },
+    { name = "matid", specifier = ">=2.1.2" },
+    { name = "mkdocs", marker = "extra == 'dev'" },
+    { name = "mkdocs-click", marker = "extra == 'dev'" },
+    { name = "mkdocs-git-revision-date-localized-plugin", marker = "extra == 'dev'" },
+    { name = "mkdocs-glightbox", marker = "extra == 'dev'" },
+    { name = "mkdocs-macros-plugin", marker = "extra == 'dev'" },
+    { name = "mkdocs-material", marker = "extra == 'dev'" },
+    { name = "mkdocs-material-extensions", marker = "extra == 'dev'" },
+    { name = "mkdocs-redirects", marker = "extra == 'dev'" },
+    { name = "mongoengine", marker = "extra == 'infrastructure'", specifier = ">=0.20" },
+    { name = "msgpack", marker = "extra == 'infrastructure'" },
+    { name = "mypy", marker = "extra == 'dev'", specifier = "==1.0.1" },
+    { name = "names", marker = "extra == 'dev'", specifier = "==0.3.0" },
+    { name = "netcdf4", marker = "extra == 'parsing'", specifier = "==1.6.5" },
+    { name = "nomad-openbis", marker = "extra == 'parsing'" },
+    { name = "nptyping", specifier = "~=1.4.4" },
+    { name = "numpy", specifier = ">=1.22.4,<2.0.0" },
+    { name = "oauthenticator", marker = "extra == 'infrastructure'", specifier = "==15.1.0" },
+    { name = "openpyxl", specifier = ">=3.0.0" },
+    { name = "optimade", extras = ["mongo"], marker = "extra == 'infrastructure'", specifier = "==0.22.1" },
+    { name = "orjson" },
+    { name = "pandas", specifier = ">=2.0.0" },
+    { name = "panedr", specifier = ">=0.2" },
+    { name = "parmed", specifier = ">=3.0.0" },
+    { name = "pint", specifier = "==0.17" },
+    { name = "pycodestyle", marker = "extra == 'dev'" },
+    { name = "pydantic", specifier = ">=1.10.8,<2.0.0" },
+    { name = "pyjwt", extras = ["crypto"], marker = "extra == 'infrastructure'", specifier = "==2.6.0" },
+    { name = "pymatgen", specifier = ">=2023.5.10" },
+    { name = "pymongo", marker = "extra == 'infrastructure'", specifier = "==4.6.3" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=5.3.0,<8" },
+    { name = "pytest-asyncio", marker = "extra == 'dev'" },
+    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=2.7.1" },
+    { name = "pytest-split", marker = "extra == 'dev'" },
+    { name = "pytest-timeout", marker = "extra == 'dev'", specifier = ">=1.4.2" },
+    { name = "pytest-xdist", marker = "extra == 'dev'", specifier = ">=1.30.0" },
+    { name = "python-gitlab", marker = "extra == 'dev'", specifier = "==2.10.1" },
+    { name = "python-json-logger", marker = "extra == 'infrastructure'", specifier = "==2.0.2" },
+    { name = "python-keycloak", specifier = ">=0.26.1" },
+    { name = "python-logstash", marker = "extra == 'infrastructure'", specifier = "==0.4.6" },
+    { name = "python-magic", specifier = "==0.4.24" },
+    { name = "python-magic-bin", marker = "sys_platform == 'win32' and extra == 'parsing'" },
+    { name = "python-multipart", marker = "extra == 'infrastructure'" },
+    { name = "pytz", specifier = ">=2022.7.1" },
+    { name = "pyyaml", specifier = ">=6.0" },
+    { name = "rdflib", marker = "extra == 'infrastructure'", specifier = "==5.0.0" },
+    { name = "rdkit", marker = "extra == 'parsing'", specifier = "==2023.9.5" },
+    { name = "recommonmark", marker = "extra == 'infrastructure'", specifier = "==0.7.1" },
+    { name = "requests", specifier = ">=2.27.1,<2.32.0" },
+    { name = "rfc3161ng", specifier = ">=2.1.3" },
+    { name = "rope", marker = "extra == 'dev'", specifier = "==0.21.0" },
+    { name = "ruamel-yaml", marker = "extra == 'dev'" },
+    { name = "ruff", marker = "extra == 'dev'" },
+    { name = "runstats", marker = "extra == 'infrastructure'", specifier = "==2.0.0" },
+    { name = "scikit-learn", specifier = ">=1.0.2" },
+    { name = "scipy", specifier = ">=1.7.1" },
+    { name = "structlog", marker = "extra == 'infrastructure'" },
+    { name = "tabulate", marker = "extra == 'infrastructure'", specifier = "==0.8.9" },
+    { name = "toposort" },
+    { name = "twine", marker = "extra == 'dev'", specifier = "==3.4.2" },
+    { name = "typed-ast", marker = "extra == 'dev'", specifier = ">=1.4.2" },
+    { name = "unidecode", specifier = "==1.3.2" },
+    { name = "uv", marker = "extra == 'dev'", specifier = ">=0.2.35" },
+    { name = "uvicorn", extras = ["standard"], marker = "extra == 'infrastructure'" },
+    { name = "validators", marker = "extra == 'infrastructure'", specifier = "==0.18.2" },
+    { name = "wrapt", specifier = ">=1.12.1" },
+    { name = "xarray", specifier = ">=0.20.2" },
+    { name = "zipstream-new", marker = "extra == 'infrastructure'", specifier = "==1.1.5" },
 ]
 
 [[package]]
