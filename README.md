@@ -22,14 +22,14 @@ Below are instructions for how to create a dev environment for developing [nomad
    The standalone installer or a global installation is the recommended way.
    (`brew install uv` on macOS or `dnf install uv` on Fedora).
 
-3. Clone the repository.
+3. Clone the forked repository.
 
    ```bash
    git clone https://github.com/<your-username>/dev_distro.git
    cd dev_distro
    ```
 
-4. _On Linux only,_ recursively change the owner of the `.volumes` directory to the nomad user (1000)
+4. _On Linux only,_ recursively change the owner of the `.volumes` directory to the nomad user (1000).
 
    ```sh
    sudo chown -R 1000 .volumes
@@ -266,7 +266,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 To keep your fork up to date with the latest changes from the original repository (upstream), follow these steps:
 
 1. Add the upstream Remote
-   
+
    If you haven't already, add the original repository as upstream:
 
    ```bash
@@ -274,7 +274,7 @@ To keep your fork up to date with the latest changes from the original repositor
    ```
 
 2. Fetch the Latest Changes from upstream
-   
+
    Fetch the latest commits from the upstream repository:
 
    ```bash
@@ -293,11 +293,10 @@ To keep your fork up to date with the latest changes from the original repositor
    Resolve any merge conflicts if necessary, and commit the merge.
 
 4. Push the Updates to Your Fork
-   
+
    After merging, push the updated branch to your fork on GitHub:
 
    ```bash
    git push origin main
    ```
 
-By following these steps, you ensure that your fork stays in sync with the latest changes from the original repository.
