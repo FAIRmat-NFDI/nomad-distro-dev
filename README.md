@@ -161,18 +161,20 @@ these two situations.
    uv run nomad admin run appworker
    ```
 
-6. Setup GUI
+6. Setup NOMAD GUI
+
+   This step only needs to be done once.
 
    ```bash
    cd packages/nomad-FAIR/gui
    uv run python -m nomad.cli dev gui-env > .env.development
-   yarn
    ```
 
-7. Start nomad gui
+7. Start NOMAD GUI
 
    ```bash
    cd packages/nomad-FAIR/gui
+   yarn
    yarn start
    ```
 
