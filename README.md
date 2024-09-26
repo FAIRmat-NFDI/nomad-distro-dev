@@ -102,7 +102,7 @@ these two situations.
    step. 
 
    Some of the plugins are already listed under 
-   [project.dependencies]. If you want to develop one of them, you
+   `[project.dependencies]`. If you want to develop one of them, you
    have to add them under `[tool.uv.sources]`. We do this for `nomad-parser-plugins-electronics`.
 
    ```toml
@@ -230,13 +230,31 @@ After the initial setup, here’s how to manage your daily development tasks.
 
 6. Adding new plugins
 
-   To add a new package, follow [setup guide](#step-by-step-setup) and add it into the `packages/` directory and ensure it's listed in `pyproject.toml` under [tool.uv.sources]. Then, install it by running:
+   To add a new package, follow [setup guide](#step-by-step-setup) and add it into the `packages/` directory and ensure it's listed in `pyproject.toml` under `[tool.uv.sources]`. Then, install it by running:
 
    ```bash
    uv sync
    ```
 
-7. Modifying dependencies in packages.
+7. Removing an existing plugin
+
+   To remove an existing plugin from the workspace in `packages/` directory, do the following and commit:
+
+   ```bash
+   git rm <path-to-submodule>
+   ```
+
+   Then you can remove the plugin from `[tool.uv.sources]` in `pyproject.toml` to
+   stop uv from using the local plugin repository.
+
+   Additionally, if you want to remove the plugin from being a dependency of your 
+   NOMAD installation, you can use `uv` to entirely remove it:
+   
+   ```bash
+   uv remove <plugin-name>
+   ``` 
+
+8. Modifying dependencies in packages.
 
    ```bash
    uv add --package <PACKAGE_NAME> <DEPENDENCY_NAME>
@@ -249,7 +267,7 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv remove --package nomad-lab numpy
    ```
 
-8. Keeping Up-to-Date
+9. Keeping Up-to-Date
 
    To pull updates from the main repository and submodules, run:
 
