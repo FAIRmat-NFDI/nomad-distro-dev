@@ -55,76 +55,91 @@ This guide explains how to set up a streamlined development environment for noma
 [`uv` workspaces](https://docs.astral.sh/uv/concepts/workspaces/#workspaces).
 This approach eliminates the need for multiple pip install commands by leveraging a monorepo and a single installation step.
 
-In this example, we'll set up the development environment for a developer working on the following computational parsers:
-
-- nomad-parser-plugins-electronic
-- nomad-parser-plugins-atomistic
-- nomad-parser-plugins-workflow
-- nomad-parser-plugins-database
+In this example, we'll set up the development environment for a developer working 
+on the following plugins: `nomad-parser-plugins-electronic` and 
+`nomad-measurements`. The first plugin already comes as a dependency
+in this dev distribution. On the contrary, the second plugin is not listed as a
+dependency. In the following, we take a look at how to setup the environment in
+these two situations.
 
 ### Step-by-Step Setup
 
 1. Update submodules
 
+   This loads the `nomad-lab` package which is already listed as a submodule.
    ```bash
    git submodule update --init --recursive
    ```
 
 2. Add local plugins
 
-   Add the plugin repositories to the packages/ directory, either as submodules.
+   Assuming that you already have a git repo for your plugins, add them to the 
+   `packages/` directory as submodules. In case, you are looking to create a plugin
+   repo from scratch, consider using our plugin template:
+   [nomad-plugin-template](https://github.com/FAIRmat-NFDI/nomad-plugin-template).
 
    ```bash
-   git submodule add https://github.com/package_name.git packages/package_name
+   git submodule add https://github.com/<package_name>.git packages/<package_name>
    ```
 
-   For example:
+   Repeat for all the plugin packages you want to add and develop. For our example:
 
    ```bash
-   git submodule add https://github.com/nomad-coe/atomistic-parsers.git packages/nomad-parser-plugins-atomistic
+   git submodule add https://github.com/nomad-coe/electronic-parsers.git packages/nomad-parser-plugins-electronic
+
+   git submodule add https://github.com/FAIRmat-NFDI/nomad-measurements.git packages/nomad-measurements
    ```
 
-   Repeat for all local dev packages (e.g., nomad-parser-plugins-electronic, nomad-parser-plugins-atomistic, etc.).
 
-3. Modify pyproject.toml
+3. Modify `pyproject.toml`
 
-   Ensure uv recognizes the local packages by modifying the `pyproject.toml`:
+   To ensure `uv` recognizes the 
+   local plugins, we need to make some modifications in the `pyproject.toml`.
+   These include adding the plugin package to `[project.dependencies]` and
+   `[tool.uv.sources]` tables.
+   For the packages listed under `[tool.uv.sources]`, `uv` uses the local code
+   directory made available under `packages/` with the previous
+   step. 
+
+   Some of the plugins are already listed under 
+   [project.dependencies]. If you want to develop one of them, you
+   have to add them under `[tool.uv.sources]`. We do this for `nomad-parser-plugins-electronics`.
 
    ```toml
-   [tool.uv.workspace]
-   members = ["packages/*"]
-
    [tool.uv.sources]
-   nomad-lab = { workspace = true }
-   nomad-parser-plugins-electronic = { workspace = true }
-   nomad-parser-plugins-atomistic = { workspace = true }
-   nomad-parser-plugins-workflow = { workspace = true }
-   nomad-parser-plugins-database = { workspace = true }
    ...
+   nomad-parser-plugins-electronic = { workspace = true }
    ```
 
-   > [!NOTE]
-   > If you're developing a plugin not listed under [project.dependencies], you must first add it as a dependency. You can do this with uv:
-
-   ```bash
-   uv add nomad-measurements
-   uv add https://github.com/FAIRmat-NFDI/nomad-parser-vasp --branch develop
-   ```
-
-   After adding the dependencies, update the [tool.uv.sources] section in your pyproject.toml file to reflect the new plugins:
+   If you're developing a plugin **not** listed under `[project.dependencies]`, you 
+   must first add it as a dependency. After adding the dependencies, update the 
+   `[tool.uv.sources]` section in your `pyproject.toml` file to reflect the new 
+   plugins. You can either add it manually abd run `uv sync`:
 
    ```toml
+   [project]
    dependencies = [
    ...
    "nomad-measurements",
-   "nomad-parser-vasp",
    ]
-
+   
    [tool.uv.sources]
    ...
    nomad-measurements = { workspace = true }
-   nomad-parser-vasp = { workspace = true }
    ```
+
+   Or, you can use `uv add` which adds the dependency and the source in `pyproject.toml` 
+   and sets up the environment:
+
+   ```bash
+   uv add nomad-measurements
+   ```
+
+   > [!NOTE]
+   > You can also use `uv` to install a specific branch of the plugin submodule.   
+   > ```bash
+   > uv add https://github.com/FAIRmat-NFDI/nomad-measurements --branch <specific-branch-name>
+   > ```
 
 4. Install dependencies
 
