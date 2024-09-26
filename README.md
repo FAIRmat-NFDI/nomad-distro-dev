@@ -1,4 +1,4 @@
-Start by forking main repository (/fair_nfdi/dev_distro) that will house all your plugins.
+Start by forking main repository (/FAIRmat-NDFI/dev_distro) that will house all your plugins.
 
 # NOMAD Dev Distribution
 
@@ -9,7 +9,7 @@ Benefits
 - Better editor support: Improved autocompletion and refactoring.
 - Consistent tooling: Shared linting, testing, and formatting.
 
-Below are instructions for how to create a dev env for developing NOMAD and nomad plugins.
+Below are instructions for how to create a dev environment for developing [nomad-lab](https://gitlab.mpcdf.mpg.de/nomad-lab) and its plugins.
 
 ## Basic infra
 
@@ -17,7 +17,8 @@ Below are instructions for how to create a dev env for developing NOMAD and noma
    Docker nowadays comes with `docker compose` built in. Prior, you needed to
    install the stand-alone [docker-compose](https://docs.docker.com/compose/install/).
 
-2. Make sure you have [uv](https://docs.astral.sh/uv/getting-started/installation/) installed.
+2. Make sure you have [uv](https://docs.astral.sh/uv/getting-started/installation/) installed. We will use it to setup,
+   maintain, and use the development environment. 
    The standalone installer or a global installation is the recommended way.
    (`brew install uv` on macOS or `dnf install uv` on Fedora).
 
@@ -34,7 +35,9 @@ Below are instructions for how to create a dev env for developing NOMAD and noma
    sudo chown -R 1000 .volumes
    ```
 
-5. Run the docker containers with docker compose in detached (--detach or -d) mode
+5. Run the docker containers with docker compose in
+   [detached](https://docs.docker.com/guides/language/golang/run-containers/#run-in-detached-mode)
+   (--detach or -d) mode.
 
    ```sh
    docker compose up -d
@@ -48,7 +51,8 @@ Below are instructions for how to create a dev env for developing NOMAD and noma
 
 ## Developing nomad + plugins locally.
 
-This guide explains how to set up a streamlined development environment for nomad-lab and its plugins using uv workspaces.
+This guide explains how to set up a streamlined development environment for nomad-lab and its plugins using 
+[`uv` workspaces](https://docs.astral.sh/uv/concepts/workspaces/#workspaces).
 This approach eliminates the need for multiple pip install commands by leveraging a monorepo and a single installation step.
 
 In this example, we'll set up the development environment for a developer working on the following computational parsers:
@@ -131,8 +135,10 @@ In this example, we'll set up the development environment for a developer workin
    ```
 
    > [!NOTE]
-   > `uv sync` and `uv run` automatically manages the virtual environment for you. There's no need to manually create or activate a venv.
+   > `uv sync` and `uv run` automatically manages the virtual environment for you. 
+   > There's no need to manually create or activate a venv.
    > Any `uv run` commands will automatically use the correct environment by default.
+   > Read more about `uv` commands to manage the dependencies [here](https://docs.astral.sh/uv/concepts/projects/#managing-dependencies). 
 
 5. Running `nomad` api app.
 
@@ -187,8 +193,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 
 4. Making code changes
 
-   Since all packages are installed in editable mode, changes you make to the code are immediately reflected. 
-   Edit your code and rerun tests or the application as needed, without needing to reinstall the packages.
+   Since all packages are installed in editable mode, changes you make to the code are immediately reflected. Edit your code and rerun tests or the application as needed, without needing to reinstall the packages.
 
 5. Linting & code formatting
 
@@ -208,7 +213,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 
 6. Adding new plugins
 
-   To add a new package, follow setup guide and add it into the packages/ directory and ensure it's listed in pyproject.toml under [tool.uv.sources]. Then, install it by running:
+   To add a new package, follow [setup guide](#step-by-step-setup) and add it into the `packages/` directory and ensure it's listed in `pyproject.toml` under [tool.uv.sources]. Then, install it by running:
 
    ```bash
    uv sync
