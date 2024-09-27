@@ -153,7 +153,9 @@ these two situations.
    uv sync
    ```
 
-> [!NOTE] > `uv sync` and `uv run` automatically manages the virtual environment for you.
+> [!NOTE]
+>
+> `uv sync` and `uv run` automatically manages the virtual environment for you.
 > There's no need to manually create or activate a venv.
 > Any `uv run` commands will automatically use the correct environment by default.
 > Read more about `uv` commands to manage the dependencies [here](https://docs.astral.sh/uv/concepts/projects/#managing-dependencies).
