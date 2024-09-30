@@ -143,12 +143,15 @@ these two situations.
 > uv add https://github.com/FAIRmat-NFDI/nomad-measurements --branch <specific-branch-name>
 > ```
 
-4. Install dependencies
 
-   Run the following command to install all dependencies, including the local packages in editable mode:
+### Day-to-Day Development
+
+After the initial setup, here’s how to manage your daily development tasks.
+
+1. Update the environment (This step updates the submodules and installs the necessary dependencies):
 
    ```bash
-   uv sync
+   uv run poe setup
    ```
 
 > [!NOTE]
@@ -158,42 +161,14 @@ these two situations.
 > Any `uv run` commands will automatically use the correct environment by default.
 > Read more about `uv` commands to manage the dependencies [here](https://docs.astral.sh/uv/concepts/projects/#managing-dependencies).
 
-6. Setup NOMAD GUI
 
-   This step only needs to be done once.
-
-   ```bash
-   cd packages/nomad-FAIR/gui
-   uv run python -m nomad.cli dev gui-env > .env.development
-   ```
-
-### Day-to-Day Development
-
-After the initial setup, here’s how to manage your daily development tasks.
-
-1. Update submodules
-
-   ```bash
-   git submodule update --init --recursive
-   ```
-
-2. Installing dependencies
-
-   If you've added new dependencies or made changes to your environment, install or update them by running:
-
-   ```bash
-   uv sync
-   ```
-
-   This will sync all packages and ensure everything is installed in editable mode.
-
-3. Running `nomad` api app.
+2. Running `nomad` api app.
 
    ```bash
    uv run nomad admin run appworker
    ```
 
-4. Start NOMAD GUI
+3. Start NOMAD GUI
 
    ```bash
    cd packages/nomad-FAIR/gui
@@ -201,13 +176,13 @@ After the initial setup, here’s how to manage your daily development tasks.
    yarn start
    ```
 
-5. Run the docs server (optional: only if you wish to run the documentation server):
+4. Run the docs server (optional: only if you wish to run the documentation server):
 
    ```bash
    uv run --directory packages/nomad-FAIR mkdocs serve
    ```
 
-6. Running tests
+5. Running tests
 
    To run tests across the project, use the uv run command to execute pytest in the relevant directory. For instance:
 
@@ -217,11 +192,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 
    This allows you to run tests for a specific parser or package. For running tests across all packages, simply repeat the command for each directory.
 
-7. Making code changes
-
-   Since all packages are installed in editable mode, changes you make to the code are immediately reflected. Edit your code and rerun tests or the application as needed, without needing to reinstall the packages.
-
-8. Linting & code formatting
+6. Linting & code formatting
 
    To check for code style issues using ruff, run the following command:
 
@@ -237,7 +208,7 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv run ruff format .
    ```
 
-9. Adding new plugins
+7. Adding new plugins
 
    To add a new package, follow [setup guide](#step-by-step-setup) and add it into the `packages/` directory and ensure it's listed in `pyproject.toml` under `[tool.uv.sources]`. Then, install it by running:
 
@@ -245,7 +216,7 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv sync
    ```
 
-10. Removing an existing plugin
+8. Removing an existing plugin
 
     To remove an existing plugin from the workspace in `packages/` directory, do the following and commit:
 
@@ -263,7 +234,7 @@ After the initial setup, here’s how to manage your daily development tasks.
     uv remove <plugin-name>
     ```
 
-11. Modifying dependencies in packages.
+9. Modifying dependencies in packages.
 
     ```bash
     uv add --package <PACKAGE_NAME> <DEPENDENCY_NAME>
@@ -276,7 +247,7 @@ After the initial setup, here’s how to manage your daily development tasks.
     uv remove --package nomad-lab numpy
     ```
 
-12. Keeping Up-to-Date
+10. Keeping Up-to-Date
 
     To pull updates from the main repository and submodules, run:
 
