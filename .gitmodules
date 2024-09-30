@@ -1,3 +1,9 @@
 [submodule "packages/nomad-FAIR"]
 	path = packages/nomad-FAIR
 	url = https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR.git
+[submodule "packages/nomad-UIBK-plugin"]
+	path = packages/nomad-UIBK-plugin
+	url = https://github.com/fabianschoeppach/nomad-UIBK-plugin.git
+[submodule "packages/nomad-UNITOV-plugin"]
+	path = packages/nomad-UNITOV-plugin
+	url = https://github.com/fabianschoeppach/nomad-UNITOV-plugin.git
