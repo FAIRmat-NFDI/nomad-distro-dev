@@ -4,7 +4,9 @@ Start by forking main repository (/FAIRmat-NDFI/dev_distro) that will house all 
 
 Benefits
 
-- One-step installations: Install everything at once with editable mode.
+- One-step installations: Install everything at once with editable mode. Since all packages are installed in editable mode,
+  changes you make to the code are immediately reflected. Edit your code and rerun tests or the application as needed,
+  without needing to reinstall the packages.
 - Centralized codebase: Easier navigation and searching across projects.
 - Better editor support: Improved autocompletion and refactoring.
 - Consistent tooling: Shared linting, testing, and formatting.
@@ -143,7 +145,6 @@ these two situations.
 > uv add https://github.com/FAIRmat-NFDI/nomad-measurements --branch <specific-branch-name>
 > ```
 
-
 ### Day-to-Day Development
 
 After the initial setup, here’s how to manage your daily development tasks.
@@ -161,11 +162,10 @@ After the initial setup, here’s how to manage your daily development tasks.
 > Any `uv run` commands will automatically use the correct environment by default.
 > Read more about `uv` commands to manage the dependencies [here](https://docs.astral.sh/uv/concepts/projects/#managing-dependencies).
 
-
-2. Running `nomad` api app.
+2. Running `nomad` api app (equivalent to running `uv run nomad admin run appworker`).
 
    ```bash
-   uv run nomad admin run appworker
+   uv run poe start
    ```
 
 3. Start NOMAD GUI
@@ -179,7 +179,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 4. Run the docs server (optional: only if you wish to run the documentation server):
 
    ```bash
-   uv run --directory packages/nomad-FAIR mkdocs serve
+   uv run poe docs
    ```
 
 5. Running tests
@@ -218,34 +218,34 @@ After the initial setup, here’s how to manage your daily development tasks.
 
 8. Removing an existing plugin
 
-    To remove an existing plugin from the workspace in `packages/` directory, do the following and commit:
+   To remove an existing plugin from the workspace in `packages/` directory, do the following and commit:
 
-    ```bash
-    git rm <path-to-submodule>
-    ```
+   ```bash
+   git rm <path-to-submodule>
+   ```
 
-    Then you can remove the plugin from `[tool.uv.sources]` in `pyproject.toml` to
-    stop uv from using the local plugin repository.
+   Then you can remove the plugin from `[tool.uv.sources]` in `pyproject.toml` to
+   stop uv from using the local plugin repository.
 
-    Additionally, if you want to remove the plugin from being a dependency of your
-    NOMAD installation, you can use `uv` to entirely remove it:
+   Additionally, if you want to remove the plugin from being a dependency of your
+   NOMAD installation, you can use `uv` to entirely remove it:
 
-    ```bash
-    uv remove <plugin-name>
-    ```
+   ```bash
+   uv remove <plugin-name>
+   ```
 
 9. Modifying dependencies in packages.
 
-    ```bash
-    uv add --package <PACKAGE_NAME> <DEPENDENCY_NAME>
-    ```
+   ```bash
+   uv add --package <PACKAGE_NAME> <DEPENDENCY_NAME>
+   ```
 
-    For example:
+   For example:
 
-    ```bash
-    uv add --package nomad-measurements "pandas>=2.0"
-    uv remove --package nomad-lab numpy
-    ```
+   ```bash
+   uv add --package nomad-measurements "pandas>=2.0"
+   uv remove --package nomad-lab numpy
+   ```
 
 10. Keeping Up-to-Date
 
