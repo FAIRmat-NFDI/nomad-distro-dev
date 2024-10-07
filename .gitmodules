@@ -7,3 +7,6 @@
 [submodule "packages/nomad-UNITOV-plugin"]
 	path = packages/nomad-UNITOV-plugin
 	url = https://github.com/fabianschoeppach/nomad-UNITOV-plugin.git
+[submodule "packages/perovskite-solar-cell-database"]
+	path = packages/perovskite-solar-cell-database
+	url = https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database

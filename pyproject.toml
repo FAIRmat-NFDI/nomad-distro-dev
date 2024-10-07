@@ -27,6 +27,7 @@ dependencies = [
   "nomad-parser-plugins-database>=1.0",
   "nomad-unitov-plugin",
   "nomad-uibk-plugin",
+  "nomad
 ]
 
 [tool.uv.workspace]
@@ -37,7 +38,7 @@ nomad-lab = { workspace = true }
 eelsdbconverter = { git = "https://github.com/nomad-coe/nomad-parser-eelsdb.git", branch = "entry-point" }
 nomad-aitoolkit = { git = "https://github.com/FAIRmat-NFDI/nomad-aitoolkit.git", rev = "b203f8eb28dc4b6771a39d5c5b7ad3d9d8583ac8" }
 nomad-porous-materials = { git = "https://github.com/FAIRmat-NFDI/nomad-porous-materials.git", rev = "522f4a3208077f534f1c5e886527ee2104283d0b" }
-perovskite-solar-cell-database = { git = "https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database.git", rev = "f394d21abafeb659729af0c94e5f90949fce01c1" }
+perovskite-solar-cell-database = { workspace = true }
 nomad-unitov-plugin = { workspace = true }
 nomad-uibk-plugin = { workspace = true }
 
