@@ -104,20 +104,26 @@ these two situations.
    directory made available under `packages/` with the previous
    step.
 
-   Some of the plugins are already listed under
-   `[project.dependencies]`. If you want to develop one of them, you
-   have to add them under `[tool.uv.sources]`. We do this for `nomad-parser-plugins-electronics`.
-
-   ```toml
-   [tool.uv.sources]
-   ...
-   nomad-parser-plugins-electronic = { workspace = true }
-   ```
-
-   If you're developing a plugin **not** listed under `[project.dependencies]`, you
+   To add a new plugin **not** listed under `[project.dependencies]`, you
    must first add it as a dependency. After adding the dependencies, update the
    `[tool.uv.sources]` section in your `pyproject.toml` file to reflect the new
-   plugins. You can either add it manually abd run `uv sync`:
+   plugins.
+ 
+   You can use `uv add` which adds the dependency and the source in `pyproject.toml`
+   and sets up the environment:
+
+   ```bash
+   uv add nomad-measurements
+   ```
+
+> [!NOTE]
+> You can also use `uv` to install a specific branch of the plugin submodule.
+>
+> ```bash
+> uv add https://github.com/FAIRmat-NFDI/nomad-measurements --branch <specific-branch-name>
+> ```
+
+   Or you can modify the `pyproject.toml` file manually:
 
    ```toml
    [project]
@@ -131,19 +137,27 @@ these two situations.
    nomad-measurements = { workspace = true }
    ```
 
-   Or, you can use `uv add` which adds the dependency and the source in `pyproject.toml`
-   and sets up the environment:
+   
+   Some of the plugins are already listed under
+   `[project.dependencies]`. If you want to develop one of them, you
+   have to add them under `[tool.uv.sources]`. We do this for `nomad-parser-plugins-electronics`.
 
-   ```bash
-   uv add nomad-measurements
-   ```
+```toml
+[tool.uv.sources]
+...
+nomad-parser-plugins-electronic = { workspace = true }
+```
 
-> [!NOTE]
-> You can also use `uv` to install a specific branch of the plugin submodule.
->
-> ```bash
-> uv add https://github.com/FAIRmat-NFDI/nomad-measurements --branch <specific-branch-name>
-> ```
+4. Create a `nomad.yaml` file.
+
+This file is used to configure nomad. For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
+
+Below is the default configuration for a development environment, using the test realm:
+
+```yaml
+keycloak:
+  realm_name: "fairdi_nomad_test"
+```
 
 ### Day-to-Day Development
 
