@@ -27,7 +27,6 @@ dependencies = [
   "nomad-parser-plugins-database>=1.0",
   "nomad-unitov-plugin",
   "nomad-uibk-plugin",
-  "nomad
 ]
 
 [tool.uv.workspace]
