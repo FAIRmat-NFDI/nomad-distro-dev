@@ -27,6 +27,7 @@ dependencies = [
   "nomad-parser-plugins-database>=1.0",
   "nomad-unitov-plugin",
   "nomad-uibk-plugin",
+  "pylint>=3.3.1",
 ]
 
 [tool.uv.workspace]
