@@ -62,7 +62,7 @@ constraint-dependencies = ["hyperspy>=1.7.6"]
 [tool.poe.tasks]
 submodule = "git submodule update --init --recursive"
 start = "nomad admin run appworker"
-setup = ["submodule", "gui-env"]
+setup = ["submodule", "gui-env", "gui-setup"]
 
 [tool.poe.tasks.gui-env]
 cmd = "python -m nomad.cli dev gui-env"
@@ -71,6 +71,36 @@ capture_stdout = "packages/nomad-FAIR/gui/.env.development"
 [tool.poe.tasks.docs]
 cmd = "mkdocs serve"
 cwd = "packages/nomad-FAIR"
+
+[tool.poe.tasks.gui]
+cmd = "yarn run"
+cwd = "packages/nomad-FAIR/gui"
+
+[tool.poe.tasks.gui-setup]
+cmd = "yarn"
+cwd = "packages/nomad-FAIR/gui"
+
+[tool.poe.tasks.gen-gui-test-env]
+cmd = "python -m nomad.cli dev gui-config"
+capture_stdout = "packages/nomad-FAIR/gui/tests/env.js"
+env = { NOMAD_CONFIG = "gui/tests/nomad.yaml" }
+
+[tool.poe.tasks.gen-gui-test-artifacts]
+cmd = "python -m nomad.cli dev gui-artifacts"
+capture_stdout = "packages/nomad-FAIR/gui/tests/artifacts.js"
+env = { NOMAD_CONFIG = "gui/tests/nomad.yaml" }
+deps = ["gen-gui-test-env"]
+
+[tool.poe.tasks.gen-nomad-lock]
+cmd = "uv pip compile -U --universal -p 3.11 --extra parsing --extra infrastructure --extra dev --annotation-style=line pyproject.toml requirements.txt"
+capture_stdout = "packages/nomad-FAIR/requirements-dev.txt"
+cwd = "packages/nomad-FAIR"
+deps = ["gen-nomad-lock-without-dev"]
+
+[tool.poe.tasks.gen-nomad-lock-without-dev]
+cmd = "uv pip compile -U --universal -p 3.11 --extra parsing --extra infrastructure --annotation-style=line pyproject.toml"
+cwd = "packages/nomad-FAIR"
+capture_stdout = "packages/nomad-FAIR/requirements.txt"
 
 
 [tool.setuptools.packages.find]
