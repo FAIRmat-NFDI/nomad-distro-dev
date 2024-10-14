@@ -188,7 +188,9 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv run poe gui start
    ```
 
-   Tip: `uv run poe gui` maps to `yarn run`, so here you can replace `start` with commands like `test`, `build`, etc.
+> [!TIP]
+>
+> `uv run poe gui` maps to `yarn run`, so here you can replace `start` with commands like `test`, `build`, etc.
 
 4. Run the docs server (optional: only if you wish to run the documentation server):
 
