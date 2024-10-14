@@ -102,6 +102,5 @@ cmd = "uv pip compile -U --universal -p 3.11 --extra parsing --extra infrastruct
 cwd = "packages/nomad-FAIR"
 capture_stdout = "packages/nomad-FAIR/requirements.txt"
 
-
 [tool.setuptools.packages.find]
 exclude = ["gui*", "docs*", "config*"]

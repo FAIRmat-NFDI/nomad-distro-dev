@@ -108,7 +108,7 @@ these two situations.
    must first add it as a dependency. After adding the dependencies, update the
    `[tool.uv.sources]` section in your `pyproject.toml` file to reflect the new
    plugins.
- 
+
    You can use `uv add` which adds the dependency and the source in `pyproject.toml`
    and sets up the environment:
 
@@ -185,10 +185,10 @@ After the initial setup, here’s how to manage your daily development tasks.
 3. Start NOMAD GUI
 
    ```bash
-   cd packages/nomad-FAIR/gui
-   yarn
-   yarn start
+   uv run poe gui start
    ```
+
+   Tip: `uv run poe gui` maps to `yarn run`, so here you can replace `start` with commands like `test`, `build`, etc.
 
 4. Run the docs server (optional: only if you wish to run the documentation server):
 
@@ -261,7 +261,14 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv remove --package nomad-lab numpy
    ```
 
-10. Keeping Up-to-Date
+10. Generating gui test artifacts and nomad requirements files
+
+    ```bash
+    uv run poe gen-gui-test-artifacts
+    uv run poe gen-nomad-lock
+    ```
+
+11. Keeping Up-to-Date
 
     To pull updates from the main repository and submodules, run:
 
