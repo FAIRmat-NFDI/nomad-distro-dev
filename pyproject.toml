@@ -63,6 +63,7 @@ constraint-dependencies = ["hyperspy>=1.7.6"]
 submodule = "git submodule update --init --recursive"
 start = "nomad admin run appworker"
 setup = ["submodule", "gui-env", "gui-setup"]
+lint = ["ruff-lint", "ruff-format"]
 
 [tool.poe.tasks.gui-env]
 cmd = "python -m nomad.cli dev gui-env"
@@ -71,6 +72,12 @@ capture_stdout = "packages/nomad-FAIR/gui/.env.development"
 [tool.poe.tasks.docs]
 cmd = "mkdocs serve"
 cwd = "packages/nomad-FAIR"
+
+[tool.poe.tasks.ruff-lint]
+cmd = "ruff check ."
+
+[tool.poe.tasks.ruff-format]
+cmd = "ruff format . --check"
 
 [tool.poe.tasks.gui]
 cmd = "yarn run"

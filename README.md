@@ -209,21 +209,19 @@ After the initial setup, here’s how to manage your daily development tasks.
 
    This allows you to run tests for a specific parser or package. For running tests across all packages, simply repeat the command for each directory.
 
+> [!TIP]
+>
+> To run tests for a specific package in an isolated venv use: `uv sync --package plugin_a && uv run --package plugin_a --directory packages/plugin_a pytest`
+
 6. Linting & code formatting
 
-   To check for code style issues using ruff, run the following command:
+   To check for linting issues using ruff, run the following command:
 
    ```bash
-   uv run ruff check .
+   uv run poe lint
    ```
 
-   This will lint all files.
-
-   For auto-formatting:
-
-   ```bash
-   uv run ruff format .
-   ```
+   You can invoke ruff separately using `uv run ruff` too.
 
 7. Adding new plugins
 
