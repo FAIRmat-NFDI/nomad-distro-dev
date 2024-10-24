@@ -28,8 +28,8 @@ uv is required to manage your development environment. It's recommended to use t
 
 3. Install [node.js](https://nodejs.org/en) (v20) and [yarn](https://classic.yarnpkg.com/en/docs/install/)(v1.22). We will use it to setup the GUI.
 
-4. For Windows users, we recommend using the [Devcontainer](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) plugin in VSCode to run the repository inside a container,
-   or alternatively, using [GitHub Codespaces](https://github.com/features/codespaces) to run the project.
+4. For Windows users, nomad-lab processing doesn't work natively on the platform. We highly recommend using the [Devcontainer](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) 
+plugin in VSCode to run the repository within a container, or alternatively, using [GitHub Codespaces](https://github.com/features/codespaces) to run the project.
 
 5. Clone the forked repository.
 
