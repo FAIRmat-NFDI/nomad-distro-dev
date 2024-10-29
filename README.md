@@ -75,9 +75,6 @@ these two situations.
    git submodule update --init --recursive
    ```
 
-> [!TIP]
->
-> If you face authentication issues fetching nomad-lab submodules, consider changing the url in `.gitmodules` file to `https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR.git`.
 
 2. Add local plugins
 
