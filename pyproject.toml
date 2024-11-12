@@ -49,8 +49,9 @@ constraint-dependencies = ["hyperspy>=1.7.6"]
 
 [tool.poe.tasks]
 submodule = "git submodule update --init --recursive"
+docker = "docker compose up -d"
 start = "nomad admin run appworker"
-setup = ["submodule", "gui-env", "gui-setup"]
+setup = ["submodule", "gui-env", "gui-setup", "docker"]
 lint = ["ruff-lint", "ruff-format"]
 
 [tool.poe.tasks.gui-env]
