@@ -102,64 +102,69 @@ these two situations.
    we need to make some modifications in the `pyproject.toml`.
    These include adding the plugin package to `[project.dependencies]` and
    `[tool.uv.sources]` tables.
-   For the packages listed under `[tool.uv.sources]`, `uv` uses the local code
+   The packages listed under `[tool.uv.sources]` are loaded by `uv` using the local code
    directory made available under `packages/` with the previous
-   step.
+   step. This list will contain all the plugins that we need to actively develop in this environment.
 
-   To add a new plugin **not** listed under `[project.dependencies]`, you
-   must first add it as a dependency. After adding the dependencies, update the
+   If a new plugin is **not** listed under `[project.dependencies]`, we need
+   first to add it as a dependency. After adding the dependencies, update the
    `[tool.uv.sources]` section in your `pyproject.toml` file to reflect the new
    plugins.
 
-   You can use `uv add` which adds the dependency and the source in `pyproject.toml`
+   There are two ways of adding to these two lists:
+
+   * You can use `uv add` which adds the dependency and the source in `pyproject.toml`
    and sets up the environment:
 
-   ```bash
-   uv add nomad-measurements
-   ```
+     ```bash
+     uv add nomad-measurements
+     ```
+   * You can modify the `pyproject.toml` file manually:
 
-> [!NOTE]
-> You can also use `uv` to install a specific branch of the plugin submodule.
->
-> ```bash
-> uv add https://github.com/FAIRmat-NFDI/nomad-measurements.git --branch <specific-branch-name>
-> ```
-
-   Or you can modify the `pyproject.toml` file manually:
-
-   ```toml
-   [project]
-   dependencies = [
-   ...
-   "nomad-measurements",
-   ]
-
-   [tool.uv.sources]
-   ...
-   nomad-measurements = { workspace = true }
-   ```
-
+     ```toml
+     [project]
+     dependencies = [
+     ...
+     "nomad-measurements",
+     ]
+  
+     [tool.uv.sources]
+     ...
+     nomad-measurements = { workspace = true }
+     ```  
    
    Some of the plugins are already listed under
    `[project.dependencies]`. If you want to develop one of them, you
    have to add them under `[tool.uv.sources]`. We do this for `nomad-parser-plugins-electronics`.
+  
+   ```toml
+   [tool.uv.sources]
+   ...
+   nomad-parser-plugins-electronic = { workspace = true }
+   ```
 
-```toml
-[tool.uv.sources]
-...
-nomad-parser-plugins-electronic = { workspace = true }
-```
+ > [!NOTE]
+ > You can also use `uv` to install a specific branch of the plugin submodule.
+ >
+ > ```bash
+ > uv add https://github.com/FAIRmat-NFDI/nomad-measurements.git --branch <specific-branch-name>
+ > ```
+ > This command will not include the plugin in the `packages/` folder, and hence this plugin
+ > will not be editable. 
+
 
 4. Create a `nomad.yaml` file.
 
-This file is used to configure nomad. For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
-
-Below is the default configuration for a development environment, using the test realm:
-
-```yaml
-keycloak:
-  realm_name: "fairdi_nomad_test"
-```
+    This file is used to configure nomad. It must be placed in the `packages/nomad-FAIR` folder. 
+    
+    For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
+    
+    Below is the default configuration for a development environment, using the test realm:
+    
+    ```yaml
+    keycloak:
+      realm_name: "fairdi_nomad_test"
+    ```
 
 ### Day-to-Day Development
 
