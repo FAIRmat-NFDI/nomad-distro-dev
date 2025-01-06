@@ -107,7 +107,7 @@ these two situations.
    step. This list will contain all the plugins that we need to actively develop in this environment.
 
    If a new plugin is **not** listed under `[project.dependencies]`, we need
-   first to add it as a dependency. After adding the dependencies, update the
+   to first add it as a dependency. After adding the dependencies, update the
    `[tool.uv.sources]` section in your `pyproject.toml` file to reflect the new
    plugins.
 
@@ -117,7 +117,7 @@ these two situations.
    and sets up the environment:
 
      ```bash
-     uv add nomad-measurements
+     uv add packages/nomad-measurements
      ```
    * You can modify the `pyproject.toml` file manually:
 
@@ -144,7 +144,7 @@ these two situations.
    ```
 
  > [!NOTE]
- > You can also use `uv` to install a specific branch of the plugin submodule.
+ > You can also use `uv` to install a specific branch of the plugin without adding a submodule locally.
  >
  > ```bash
  > uv add https://github.com/FAIRmat-NFDI/nomad-measurements.git --branch <specific-branch-name>
