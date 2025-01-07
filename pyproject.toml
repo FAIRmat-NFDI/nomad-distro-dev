@@ -11,7 +11,7 @@ dependencies = [
   'nomad-porous-materials; sys_platform != "win32"',
   "nomad-aitoolkit",
   "nomad-simulations==0.0.1",
-  "pynxtools[convert]==0.9.1",
+  "pynxtools[apm,ellips,mpes,raman,stm,xps,xrd]==0.9.1",
   "nomad-schema-plugin-run>=1.0.1",
   "nomad-schema-plugin-simulation-workflow>=1.0.1",
   "nomad-normalizer-plugin-bandstructure>=1.0",
@@ -20,11 +20,11 @@ dependencies = [
   "nomad-normalizer-plugin-spectra>=1.0",
   "nomad-normalizer-plugin-system>=1.0",
   "nomad-normalizer-plugin-simulation-workflow>=1.0",
-  "eelsdbconverter",
   "nomad-parser-plugins-electronic>=1.0",
   "nomad-parser-plugins-atomistic>=1.0",
   "nomad-parser-plugins-workflow>=1.0",
   "nomad-parser-plugins-database>=1.0",
+  "nomad-external-eln-integrations",
 ]
 
 [tool.uv.workspace]
@@ -32,10 +32,10 @@ members = ["packages/*"]
 
 [tool.uv.sources]
 nomad-lab = { workspace = true }
-eelsdbconverter = { git = "https://github.com/nomad-coe/nomad-parser-eelsdb.git", branch = "entry-point" }
 nomad-aitoolkit = { git = "https://github.com/FAIRmat-NFDI/nomad-aitoolkit.git", rev = "b203f8eb28dc4b6771a39d5c5b7ad3d9d8583ac8" }
 nomad-porous-materials = { git = "https://github.com/FAIRmat-NFDI/nomad-porous-materials.git", rev = "522f4a3208077f534f1c5e886527ee2104283d0b" }
 perovskite-solar-cell-database = { git = "https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database.git", tag = "v0.1.1" }
+nomad-external-eln-integrations = { git = "https://github.com/FAIRmat-NFDI/nomad-external-eln-integrations", rev = "de8050effb510fc2be0974cb08d44b475791b0a5" }
 
 [tool.uv]
 extra-index-url = [
@@ -81,12 +81,6 @@ cwd = "packages/nomad-FAIR/gui"
 cmd = "python -W ignore -m nomad.cli dev gui-config"
 capture_stdout = "packages/nomad-FAIR/gui/tests/env.js"
 env = { NOMAD_CONFIG = "packages/nomad-FAIR/gui/tests/nomad.yaml" }
-
-[tool.poe.tasks.gen-gui-test-artifacts]
-cmd = "python -W ignore -m nomad.cli dev gui-artifacts"
-capture_stdout = "packages/nomad-FAIR/gui/tests/artifacts.js"
-env = { NOMAD_CONFIG = "packages/nomad-FAIR/gui/tests/nomad.yaml" }
-deps = ["gen-gui-test-env"]
 
 [tool.poe.tasks.gen-nomad-lock]
 cmd = "uv pip compile -U --universal -p 3.11 --extra parsing --extra infrastructure --extra dev --annotation-style=line pyproject.toml requirements.txt"
