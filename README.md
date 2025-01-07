@@ -22,9 +22,10 @@ Below are instructions for how to create a dev environment for developing [nomad
    Docker nowadays comes with `docker compose` built in. Prior, you needed to
    install the stand-alone [docker-compose](https://docs.docker.com/compose/install/).
 
-uv is required to manage your development environment. It's recommended to use the standalone installer or perform a global installation.
-(`brew install uv` on macOS or `dnf install uv` on Fedora).
 2. Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (v0.5.14 and above).
+   uv is required to manage your development environment. It's recommended to use the standalone installer or perform a global installation.
+   (`brew install uv` on macOS or `dnf install uv` on Fedora).
+
 
 3. Install [node.js](https://nodejs.org/en) (v20) and [yarn](https://classic.yarnpkg.com/en/docs/install/)(v1.22). We will use it to setup the GUI.
 
