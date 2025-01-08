@@ -155,7 +155,7 @@ these two situations.
 
 4. Create a `nomad.yaml` file.
 
-    This file is used to configure nomad. It must be placed in the `packages/nomad-FAIR` folder. 
+    This file is used to configure nomad. It must be placed in the root folder of the fork of the current repo you did in your github account. 
     
     For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
     
