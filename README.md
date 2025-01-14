@@ -154,25 +154,8 @@ these two situations.
  > will not be editable. 
 
 
-4. Create a `nomad.yaml` file.
 
-    This file is used to configure nomad. It must be placed in the top-level directory of your repository, where all commands are executed from.
-
-    Running the following command will create the default config file.
-
-    ```bash
-    uv run poe config
-    ```
-
-    For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
     
-    Below is the default configuration for a development environment, using the test realm:
-    
-    ```yaml
-    keycloak:
-      realm_name: "fairdi_nomad_test"
-    ```
-
 ### Day-to-Day Development
 
 After the initial setup, here’s how to manage your daily development tasks.
@@ -182,6 +165,12 @@ After the initial setup, here’s how to manage your daily development tasks.
    ```bash
    uv run poe setup
    ```
+
+   As part of the setup command, a `nomad.yaml` config file will be created, this file is used to configure nomad. 
+   It will be placed in the top-level directory of your repository, where all commands are executed from.
+
+   For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
+
 
 > [!NOTE]
 >
