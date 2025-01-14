@@ -55,6 +55,12 @@ start = "nomad admin run appworker"
 setup = ["gui-env", "gui-setup", "docker"]
 lint = ["ruff-lint", "ruff-format"]
 
+[tool.poe.tasks.config]
+shell = """
+with open("nomad.yaml", "w") as f: f.write("keycloak:\\n  realm_name: \\"fairdi_nomad_test\\"\\n")
+"""
+interpreter = "python"
+
 [tool.poe.tasks.gui-env]
 cmd = "python -W ignore -m nomad.cli dev gui-env"
 capture_stdout = "packages/nomad-FAIR/gui/.env.development"
