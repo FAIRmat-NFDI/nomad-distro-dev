@@ -201,7 +201,13 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv run poe docs
    ```
 
-5. Running tests
+5. Run the remote tools hub server (optional: only if you wish to use the remote tools hub):
+
+   ```bash
+   uv run poe hub
+   ```
+
+6. Running tests
 
    To run tests across the project, use the uv run command to execute pytest in the relevant directory. For instance:
 
@@ -215,7 +221,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 >
 > To run tests for a specific package in an isolated venv use: `uv run --exact --all-extras --package plugin_a --directory packages/plugin_a pytest`
 
-6. Linting & code formatting
+7. Linting & code formatting
 
    To check for linting issues using ruff, run the following command:
 
@@ -225,7 +231,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 
    You can invoke ruff separately using `uv run ruff` too.
 
-7. Adding new plugins
+8. Adding new plugins
 
    To add a new package, follow [setup guide](#step-by-step-setup) and add it into the `packages/` directory and ensure it's listed in `pyproject.toml` under `[tool.uv.sources]`. Then, install it by running:
 
@@ -233,7 +239,7 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv sync
    ```
 
-8. Removing an existing plugin
+9. Removing an existing plugin
 
    To remove an existing plugin from the workspace in `packages/` directory, do the following and commit:
 
@@ -251,7 +257,7 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv remove <plugin-name>
    ```
 
-9. Modifying dependencies in packages.
+10. Modifying dependencies in packages.
 
    ```bash
    uv add --package <PACKAGE_NAME> <DEPENDENCY_NAME>
@@ -264,14 +270,14 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv remove --package nomad-lab numpy
    ```
 
-10. Generating gui test artifacts and nomad requirements files
+11. Generating gui test artifacts and nomad requirements files
 
     ```bash
     uv run poe gen-gui-test-artifacts
     uv run poe gen-nomad-lock
     ```
 
-11. Keeping Up-to-Date
+12. Keeping Up-to-Date
 
     To pull updates from the main repository and submodules, run:
 
@@ -284,6 +290,10 @@ After the initial setup, here’s how to manage your daily development tasks.
     ```bash
     uv sync
     ```
+
+> [!NOTE]
+>
+> The nomad instance will be available on http://localhost:3000/fairdi/nomad/latest/gui, and expects to find the nomad API on localhost:8000, and the remotes tool hub on localhost:9000. If you are running the instance on a remote server, make sure to forward these ports locally.
 
 ### Updating the fork
 
