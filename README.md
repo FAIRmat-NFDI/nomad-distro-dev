@@ -153,7 +153,7 @@ these two situations.
  > This command will not include the plugin in the `packages/` folder, and hence this plugin
  > will not be editable. 
 
-
+A complete list of plugins maintained by FAIRmat-NFDI can by found in the [overview page](https://github.com/FAIRmat-NFDI) of the FAIRmat-NFDI organisation.
 
     
 ### Day-to-Day Development
