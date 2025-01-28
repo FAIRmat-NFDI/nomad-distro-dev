@@ -36,7 +36,7 @@
       "name": "nomad lab tests",
       "type": "python",
       "request": "launch",
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/packages/nomad-FAIR",
       "program": "${workspaceFolder}/.venv/bin/pytest",
       "justMyCode": false,
       "env": {
