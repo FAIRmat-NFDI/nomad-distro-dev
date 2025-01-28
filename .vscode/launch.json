@@ -42,7 +42,7 @@
       "env": {
         "_PYTEST_RAISE": "1"
       },
-      "args": ["-sv", "packages/nomad-FAIR/tests"]
+      "args": ["-sv", "tests"]
     },
     {
       "name": "nomad parse",
