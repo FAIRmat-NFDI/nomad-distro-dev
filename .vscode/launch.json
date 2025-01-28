@@ -54,7 +54,7 @@
       "args": [
         "parse",
         "--show-archive",
-        "packacges/nomad-FAIR/tests/data/parsers/vasp/vasp.xml"
+        "packages/nomad-FAIR/tests/data/parsers/vasp/vasp.xml"
       ]
     },
     {
