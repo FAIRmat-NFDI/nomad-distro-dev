@@ -74,6 +74,10 @@ cmd = "ruff check ."
 [tool.poe.tasks.ruff-format]
 cmd = "ruff format . --check"
 
+[tool.poe.tasks.hub]
+cmd = "nomad admin run hub"
+cwd = "packages/nomad-FAIR"
+
 [tool.poe.tasks.gui]
 cmd = "yarn run"
 cwd = "packages/nomad-FAIR/gui"
