@@ -1,4 +1,4 @@
-Start by forking main repository (/FAIRmat-NDFI/nomad-distro-dev) that will house all your plugins.
+Start by forking main repository (/FAIRmat-NFDI/nomad-distro-dev) that will house all your plugins.
 
 # NOMAD Dev Distribution
 
@@ -29,7 +29,7 @@ Below are instructions for how to create a dev environment for developing [nomad
 
 3. Install [node.js](https://nodejs.org/en) (v20) and [yarn](https://classic.yarnpkg.com/en/docs/install/)(v1.22). We will use it to setup the GUI.
 
-4. For Windows users, nomad-lab processing doesn't work natively on the platform. We highly recommend using the [Devcontainer](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) 
+4. For Windows users, nomad-lab processing doesn't work natively on the platform. We highly recommend using the [Devcontainer](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 plugin in VSCode to run the repository within a container, or alternatively, using [GitHub Codespaces](https://github.com/features/codespaces) to run the project.
 
 5. Clone the forked repository.
@@ -126,7 +126,7 @@ these two situations.
    ```bash
    uv add packages/nomad-measurements packages/PLUGIN_B packages/PLUGIN_C
    ```
- 
+
    * You can modify the `pyproject.toml` file manually:
 
      ```toml
@@ -135,16 +135,16 @@ these two situations.
      ...
      "nomad-measurements",
      ]
-  
+
      [tool.uv.sources]
      ...
      nomad-measurements = { workspace = true }
-     ```  
-   
+     ```
+
    Some of the plugins are already listed under
    `[project.dependencies]`. If you want to develop one of them, you
    have to add them under `[tool.uv.sources]`. We do this for `nomad-parser-plugins-electronics`.
-  
+
    ```toml
    [tool.uv.sources]
    ...
@@ -158,11 +158,11 @@ these two situations.
  > uv add https://github.com/FAIRmat-NFDI/nomad-measurements.git --branch <specific-branch-name>
  > ```
  > This command will not include the plugin in the `packages/` folder, and hence this plugin
- > will not be editable. 
+ > will not be editable.
 
 A complete list of plugins maintained by FAIRmat-NFDI can by found in the [overview page](https://github.com/FAIRmat-NFDI) of the FAIRmat-NFDI organisation.
 
-    
+
 ### Day-to-Day Development
 
 After the initial setup, here’s how to manage your daily development tasks.
@@ -173,7 +173,7 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv run poe setup
    ```
 
-   As part of the setup command, a `nomad.yaml` config file will be created, this file is used to configure nomad. 
+   As part of the setup command, a `nomad.yaml` config file will be created, this file is used to configure nomad.
    It will be placed in the top-level directory of your repository, where all commands are executed from.
 
    For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
@@ -342,9 +342,9 @@ To keep your fork up to date with the latest changes from the original repositor
    ```
 
 2. Failed to install pycifrw.
-   
+
    The error usually indicates that clang was missing. `error: command 'clang'`. Installing `clang` should fix this issue.
-   
+
 
 
 
