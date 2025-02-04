@@ -1,4 +1,4 @@
-Start by forking main repository (/FAIRmat-NDFI/nomad-distro-dev) that will house all your plugins.
+Start by forking main repository (/FAIRmat-NFDI/nomad-distro-dev) that will house all your plugins.
 
 # NOMAD Dev Distribution
 
