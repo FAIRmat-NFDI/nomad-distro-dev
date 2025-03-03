@@ -32,14 +32,14 @@ Below are instructions for how to create a dev environment for developing [nomad
 4. For Windows users, nomad-lab processing doesn't work natively on the platform. We highly recommend using the [Devcontainer](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) 
 plugin in VSCode to run the repository within a container, or alternatively, using [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/about) (WSL) to run the project.
 
-6. Clone the forked repository.
+5. Clone the forked repository.
 
    ```bash
    git clone https://github.com/<your-username>/nomad-distro-dev.git
    cd nomad-distro-dev
    ```
 
-7. Run the docker containers with docker compose in
+6. Run the docker containers with docker compose in
    [detached](https://docs.docker.com/guides/language/golang/run-containers/#run-in-detached-mode)
    (--detach or -d) mode.
 
