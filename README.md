@@ -1,4 +1,4 @@
-Start by forking main repository (/FAIRmat-NFDI/nomad-distro-dev) that will house all your plugins.
+Start by forking this [main repository](https://github.com/FAIRmat-NFDI/nomad-distro-dev) that will house all your plugins.
 
 # NOMAD Dev Distribution
 
@@ -30,16 +30,16 @@ Below are instructions for how to create a dev environment for developing [nomad
 3. Install [node.js](https://nodejs.org/en) (v20) and [yarn](https://classic.yarnpkg.com/en/docs/install/)(v1.22). We will use it to setup the GUI.
 
 4. For Windows users, nomad-lab processing doesn't work natively on the platform. We highly recommend using the [Devcontainer](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) 
-plugin in VSCode to run the repository within a container, or alternatively, using [GitHub Codespaces](https://github.com/features/codespaces) to run the project.
+plugin in VSCode to run the repository within a container, or alternatively, using [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/about) (WSL) to run the project.
 
-5. Clone the forked repository.
+6. Clone the forked repository.
 
    ```bash
    git clone https://github.com/<your-username>/nomad-distro-dev.git
    cd nomad-distro-dev
    ```
 
-6. Run the docker containers with docker compose in
+7. Run the docker containers with docker compose in
    [detached](https://docs.docker.com/guides/language/golang/run-containers/#run-in-detached-mode)
    (--detach or -d) mode.
 
@@ -75,7 +75,10 @@ these two situations.
    ```bash
    git submodule update --init --recursive
    ```
-
+> [!TIP]
+>
+> To get more information on how to use git submodules are used to structure bigger
+> software projects, read the this [Github blog entry](https://github.blog/open-source/git/working-with-submodules/) on this topic.
 
 2. Add local plugins
 
@@ -167,7 +170,7 @@ A complete list of plugins maintained by FAIRmat-NFDI can by found in the [overv
 
 After the initial setup, here’s how to manage your daily development tasks.
 
-1. Update the environment (This step updates the submodules and installs the necessary dependencies):
+1. Update the environment (This step installs the necessary dependencies):
 
    ```bash
    uv run poe setup
