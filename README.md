@@ -22,7 +22,7 @@ Below are instructions for how to create a dev environment for developing [nomad
    Docker nowadays comes with `docker compose` built in. Prior, you needed to
    install the stand-alone [docker-compose](https://docs.docker.com/compose/install/).
 
-2. Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (v0.5.14 and above).
+2. Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (v0.6 and above).
    uv is required to manage your development environment. It's recommended to use the standalone installer or perform a global installation.
    (`brew install uv` on macOS or `dnf install uv` on Fedora).
 
@@ -77,8 +77,8 @@ these two situations.
    ```
 > [!TIP]
 >
-> To get more information on how to use git submodules are used to structure bigger
-> software projects, read the this [Github blog entry](https://github.blog/open-source/git/working-with-submodules/) on this topic.
+> To get more information on how to use git submodules and how it's used to structure bigger
+> software projects, read the following [Github blog entry](https://github.blog/open-source/git/working-with-submodules/) guide on this topic.
 
 2. Add local plugins
 
