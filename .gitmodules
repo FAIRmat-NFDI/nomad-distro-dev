@@ -7,3 +7,9 @@
 [submodule "packages/nomad-normalizer-plugin-bandstructure"]
 	path = packages/nomad-normalizer-plugin-bandstructure
 	url = git@github.com:nomad-coe/nomad-normalizer-plugin-bandstructure.git
+[submodule "packages/nomad-schema-plugin-run"]
+	path = packages/nomad-schema-plugin-run
+	url = git@github.com:nomad-coe/nomad-schema-plugin-run.git
+[submodule "packages/nomad-schema-plugin-simulation-workflow"]
+	path = packages/nomad-schema-plugin-simulation-workflow
+	url = git@github.com:nomad-coe/nomad-schema-plugin-simulation-workflow.git
