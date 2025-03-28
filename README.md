@@ -342,9 +342,5 @@ To keep your fork up to date with the latest changes from the original repositor
    ```
 
 2. Failed to install pycifrw.
-   
+
    The error usually indicates that clang was missing. `error: command 'clang'`. Installing `clang` should fix this issue.
-   
-
-
-
