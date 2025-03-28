@@ -62,8 +62,22 @@
       "args": [
         "parse",
         "--show-archive",
-        "packages/nomad-FAIR/tests/data/parsers/vasp/vasp.xml"
+        "packages/nomad-FAIR/tests/data/parsers/vasp/vasp.xml",
+        ">",
+        "test.parser.json"
       ]
+    },
+    {
+      "name": "nomad test plugin",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/packages/nomad-parser-plugins-electronic",
+      "program": "${workspaceFolder}/.venv/bin/pytest",
+      "justMyCode": false,
+      "env": {
+        "_PYTEST_RAISE": "1"
+      },
+      "args": ["-sv", "tests/test_quantumespressoparser.py"]
     },
     {
       "name": "Python: Current File",
