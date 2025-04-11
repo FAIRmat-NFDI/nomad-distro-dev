@@ -66,7 +66,7 @@ capture_stdout = "packages/nomad-FAIR/gui/.env.development"
 
 [tool.poe.tasks.docs]
 cmd = "mkdocs serve"
-cwd = "packages/nomad-FAIR"
+cwd = "docs"
 
 [tool.poe.tasks.ruff-lint]
 cmd = "ruff check ."
