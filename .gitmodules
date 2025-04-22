@@ -1,3 +1,6 @@
 [submodule "packages/nomad-FAIR"]
 	path = packages/nomad-FAIR
 	url = https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR.git
+[submodule "packages/nomad-catalysis"]
+	path = packages/nomad-catalysis
+	url = https://github.com/FAIRmat-NFDI/nomad-catalysis-plugin

@@ -21,6 +21,7 @@ dependencies = [
   "nomad-parser-plugins-atomistic>=1.0.6",
   "nomad-parser-plugins-database>=1.0",
   "nomad-external-eln-integrations",
+  "nomad-catalysis",
 ]
 
 [tool.uv.workspace]
@@ -32,6 +33,7 @@ nomad-aitoolkit = { git = "https://github.com/FAIRmat-NFDI/nomad-aitoolkit.git",
 nomad-porous-materials = { git = "https://github.com/FAIRmat-NFDI/nomad-porous-materials.git", rev = "522f4a3208077f534f1c5e886527ee2104283d0b" }
 perovskite-solar-cell-database = { git = "https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database.git", tag = "v0.1.1" }
 nomad-external-eln-integrations = { git = "https://github.com/FAIRmat-NFDI/nomad-external-eln-integrations", rev = "de8050effb510fc2be0974cb08d44b475791b0a5" }
+nomad-catalysis = { workspace = true }
 
 [tool.uv]
 extra-index-url = [
