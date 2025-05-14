@@ -4,3 +4,9 @@
 [submodule "packages/nomad-catalysis"]
 	path = packages/nomad-catalysis
 	url = https://github.com/FAIRmat-NFDI/nomad-catalysis-plugin
+[submodule "packages/nomad-neb-workflows"]
+	path = packages/nomad-neb-workflows
+	url = https://github.com/FAIRmat-NFDI/nomad-neb-workflows.git
+[submodule "packages/nomad-atomistic-parsers"]
+	path = packages/nomad-atomistic-parsers
+	url = https://github.com/nomad-coe/atomistic-parsers.git

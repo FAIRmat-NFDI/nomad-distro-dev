@@ -7,11 +7,11 @@ requires-python = ">=3.10"
 license = { file = "LICENSE" }
 dependencies = [
   "nomad-lab[parsing, infrastructure]>=1.3.10",
-  "perovskite-solar-cell-database",
-  'nomad-porous-materials; sys_platform != "win32"',
-  "nomad-aitoolkit",
-  "nomad-simulations>=0.3.2",
-  "pynxtools[apm,ellips,mpes,raman,stm,xps,xrd]==0.10.0",
+  # "perovskite-solar-cell-database",
+  # 'nomad-porous-materials; sys_platform != "win32"',
+  # "nomad-aitoolkit",
+  # "nomad-simulations>=0.3.2",
+  # "pynxtools[apm,ellips,mpes,raman,stm,xps,xrd]==0.10.0",
   "nomad-schema-plugin-run>=1.0.1",
   "nomad-normalizer-plugin-dos>=1.0",
   "nomad-normalizer-plugin-soap>=1.0",
@@ -19,9 +19,10 @@ dependencies = [
   "nomad-normalizer-plugin-system>=1.0",
   "nomad-parser-plugins-electronic>=1.0",
   "nomad-parser-plugins-atomistic>=1.0.6",
-  "nomad-parser-plugins-database>=1.0",
-  "nomad-external-eln-integrations",
+  # "nomad-parser-plugins-database>=1.0",
+  # "nomad-external-eln-integrations",
   "nomad-catalysis",
+  "nomad-neb-workflows",
 ]
 
 [tool.uv.workspace]
@@ -29,11 +30,13 @@ members = ["packages/*"]
 
 [tool.uv.sources]
 nomad-lab = { workspace = true }
-nomad-aitoolkit = { git = "https://github.com/FAIRmat-NFDI/nomad-aitoolkit.git", rev = "b203f8eb28dc4b6771a39d5c5b7ad3d9d8583ac8" }
-nomad-porous-materials = { git = "https://github.com/FAIRmat-NFDI/nomad-porous-materials.git", rev = "522f4a3208077f534f1c5e886527ee2104283d0b" }
-perovskite-solar-cell-database = { git = "https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database.git", tag = "v0.1.1" }
-nomad-external-eln-integrations = { git = "https://github.com/FAIRmat-NFDI/nomad-external-eln-integrations", rev = "de8050effb510fc2be0974cb08d44b475791b0a5" }
+# nomad-aitoolkit = { git = "https://github.com/FAIRmat-NFDI/nomad-aitoolkit.git", rev = "b203f8eb28dc4b6771a39d5c5b7ad3d9d8583ac8" }
+# nomad-porous-materials = { git = "https://github.com/FAIRmat-NFDI/nomad-porous-materials.git", rev = "522f4a3208077f534f1c5e886527ee2104283d0b" }
+# perovskite-solar-cell-database = { git = "https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database.git", tag = "v0.1.1" }
+# nomad-external-eln-integrations = { git = "https://github.com/FAIRmat-NFDI/nomad-external-eln-integrations", rev = "de8050effb510fc2be0974cb08d44b475791b0a5" }
 nomad-catalysis = { workspace = true }
+nomad-neb-workflows = { workspace = true }
+nomad-parser-plugins-atomistic = { workspace = true }
 
 [tool.uv]
 extra-index-url = [
