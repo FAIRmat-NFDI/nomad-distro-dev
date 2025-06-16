@@ -67,8 +67,18 @@ services:
     command: mongod
     # --logpath=/dev/null # --quiet
 
+  temporal:
+    container_name: nomad_temporal
+    image: ghcr.io/fairmat-nfdi/temporal-dev-server:main
+    platform: linux/amd64
+    volumes:
+      - nomad_temporal:/data
+    ports:
+      - 7233:7233
+      - 8080:8080
 volumes:
   nomad_mongo:
   nomad_mongo_config:
   nomad_elastic:
   nomad_rabbitmq:
+  nomad_temporal:
