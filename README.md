@@ -315,6 +315,13 @@ Now, everytime you wanna start the docs server, run the following:
     uv sync
     ```
 
+13. Running `nomad` orchestrator [gpu/cpu] workers
+
+   ```bash
+   uv run poe gpu-worker
+   uv run poe cpu-worker
+   ```
+
 > [!NOTE]
 >
 > The nomad instance will be available on http://localhost:3000/fairdi/nomad/latest/gui, and expects to find the nomad API on localhost:8000, and the remotes tool hub on localhost:9000. If you are running the instance on a remote server, make sure to forward these ports locally.  

@@ -48,15 +48,18 @@ required-version = ">=0.5.14"
 submodule = "git submodule update --init --recursive"
 docker = "docker compose up -d"
 start = "nomad admin run appworker"
+gpu-worker = "nomad admin run orchestrator-gpu-worker"
+cpu-worker = "nomad admin run orchestrator-cpu-worker"
 setup = ["gui-env", "gui-setup", "docker", "config"]
 lint = ["ruff-lint", "ruff-format"]
 
 [tool.poe.tasks.config]
 shell = """
 import os;
+yaml = 'keycloak:\\n  realm_name: \\"fairdi_nomad_test\\"\\ntemporal:\\n  enabled: true\\n'
 if not os.path.exists("nomad.yaml"):
     with open("nomad.yaml", "w") as f:
-        f.write("keycloak:\\n  realm_name: \\"fairdi_nomad_test\\"\\n")
+      f.write(yaml)
 """
 interpreter = "python"
 
