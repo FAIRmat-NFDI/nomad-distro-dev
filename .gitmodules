@@ -1,9 +1,6 @@
 [submodule "packages/nomad-FAIR"]
 	path = packages/nomad-FAIR
 	url = https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR.git
-[submodule "packages/north-hub/dockerspawner"]
-	path = packages/north-hub/dockerspawner
-	url = https://github.com/jupyterhub/dockerspawner.git
 [submodule "packages/nomad-north"]
 	path = packages/nomad-north
 	url = git@github.com:FAIRmat-NFDI/nomad-north.git
