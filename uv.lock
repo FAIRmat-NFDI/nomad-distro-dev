@@ -12,6 +12,7 @@ resolution-markers = [
 members = [
     "nomad-distribution",
     "nomad-lab",
+    "nomad-north",
 ]
 constraints = [{ name = "hyperspy", specifier = ">=1.7.6" }]
 
@@ -2243,7 +2244,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "nomad-lab", extras = ["parsing", "infrastructure", "dev"], editable = "packages/nomad-FAIR" },
+    { name = "nomad-lab", extras = ["dev", "infrastructure", "parsing"], editable = "packages/nomad-FAIR" },
     { name = "poethepoet", specifier = ">=0.29.0" },
 ]
 
@@ -2473,6 +2474,11 @@ sdist = { url = "https://files.pythonhosted.org/packages/11/e4/b3a2d51bacff41101
 wheels = [
     { url = "https://files.pythonhosted.org/packages/02/3c/ee50b911046cae94e0d2bf6b45cb799964c2cb41b2877b065aa434a72a23/nomad_normalizer_plugin_system-1.0.4-py3-none-any.whl", hash = "sha256:f0974c4d2ef073f5d7cf100230f3261f1636976f310daf6f3f45afa2d5b33995", size = 13021, upload-time = "2025-08-11T10:29:12.025Z" },
 ]
+
+[[package]]
+name = "nomad-north"
+version = "0.1"
+source = { virtual = "packages/nomad-north" }
 
 [[package]]
 name = "nomad-openbis"
