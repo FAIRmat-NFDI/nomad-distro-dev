@@ -1,0 +1,114 @@
+profile_list:
+- default: false
+  description: Basic jupyter run with an empty notebook or on given notebook file.
+  display_name: jupyter
+  dockerspawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/nomad-distro/jupyter:develop
+  kubespawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/nomad-distro/jupyter:develop
+  slug: jupyter
+- default: false
+  description: Jupyterlab with pyiron installed.
+  display_name: pyiron
+  dockerspawner_override:
+    default_url: /lab
+    image: pyiron/pyiron:latest
+  kubespawner_override:
+    default_url: /lab
+    image: pyiron/pyiron:latest
+  slug: pyiron
+- default: false
+  description: Run Nion Swift to analyze data as well as prepare focus series reconstructions
+    in NOMAD.
+  display_name: nionswift
+  dockerspawner_override:
+    default_url: /desktop
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/nionswift:refactor
+  kubespawner_override:
+    default_url: /desktop
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/nionswift:refactor
+  slug: nionswift
+- default: false
+  description: Analyse your NeXus files in NOMAD with several NeXus-compatible tools.
+  display_name: nexustools
+  dockerspawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/nexus:weptop-replacement
+  kubespawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/nexus:weptop-replacement
+  slug: nexustools
+- default: false
+  description: Use FIJI to analyze and visualize your images in your NOMAD files.
+  display_name: fiji
+  dockerspawner_override:
+    default_url: /desktop
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/fiji:weptop-replacement
+  kubespawner_override:
+    default_url: /desktop
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/fiji:weptop-replacement
+  slug: fiji
+- default: false
+  description: Run VESTA to analyse and visualize your crystal structures in your
+    NOMAD files.
+  display_name: vesta
+  dockerspawner_override:
+    default_url: /desktop
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/abtem:refactor
+  kubespawner_override:
+    default_url: /desktop
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/abtem:refactor
+  slug: vesta
+- default: false
+  description: Electronic structure supported image simulation for transmission electron
+    microscopy.
+  display_name: abtem
+  dockerspawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/abtem:refactor
+  kubespawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/abtem:refactor
+  slug: abtem
+- default: false
+  description: An example for analyzing ellipsometric data.
+  display_name: ellips
+  dockerspawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/ellips:refactor
+  kubespawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/ellips:refactor
+  slug: ellips
+- default: false
+  description: An example for analyzing XPS data.
+  display_name: xps
+  dockerspawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/xps:master
+  kubespawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/xps:master
+  slug: xps
+- default: false
+  description: An example for analyzing SPM (STM / STS) experiment.
+  display_name: sts
+  dockerspawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/sts:refactor
+  kubespawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/sts:refactor
+  slug: sts
+- default: false
+  description: An example for analyzing atom probe data.
+  display_name: apmtools
+  dockerspawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/apmtools:refactor
+  kubespawner_override:
+    default_url: /lab
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/north/apmtools:refactor
+  slug: apmtools

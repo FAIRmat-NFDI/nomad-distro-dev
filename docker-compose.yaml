@@ -67,8 +67,41 @@ services:
     command: mongod
     # --logpath=/dev/null # --quiet
 
+
+  hub:
+    build:
+      context: ./packages/nomad-north/images/hub/
+      dockerfile: Dockerfile
+      args:
+        JUPYTERHUB_VERSION: latest
+    restart: always
+    # image: nomad_north
+    container_name: nomad_north
+    networks:
+      - default
+    volumes:
+      # The JupyterHub configuration file
+      # - "./images/hub/jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro"
+      - "./profile_list_generated.yaml:/srv/jupyterhub/profile_list.yaml:ro"
+      # Bind Docker socket on the host so we can connect to the daemon from
+      # within the container
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+      # Bind Docker volume on host for JupyterHub database and cookie secrets
+      - "nomad_hub:/data"
+    ports:
+      - "9000:9000"
+    environment:
+      # All containers will join this network
+      DOCKER_NETWORK_NAME: nomad_oasis_network
+
+networks:
+  default:
+    name: nomad_oasis_network
+
 volumes:
   nomad_mongo:
   nomad_mongo_config:
   nomad_elastic:
   nomad_rabbitmq:
+  nomad_hub:
+
