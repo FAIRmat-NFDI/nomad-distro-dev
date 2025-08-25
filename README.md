@@ -271,7 +271,7 @@ Now, everytime you want to start the docs server, run the following:
 
 > [!NOTE]
 >
-> The nomad instance will be available on http://localhost:3000/fairdi/nomad/latest/gui, and expects to find the nomad API on localhost:8000, and the remotes tool hub on localhost:9000. If you are running the instance on a remote server, make sure to forward these ports locally.
+> The nomad instance will be available on http://localhost:3000/nomad-oasis/gui, and expects to find the nomad API on localhost:8000, and the remotes tool hub on localhost:9000. If you are running the instance on a remote server, make sure to forward these ports locally.
 > As an alternative way to port forwarding, the backend URL for the GUI can be configured too. For that, the `REACT_APP_BACKEND_URL` in `packages/nomad-FAIR/gui/.env.development` can be modified to the appropriate API url.
 
 ### Updating the fork
