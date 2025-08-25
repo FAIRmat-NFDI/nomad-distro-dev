@@ -14,15 +14,13 @@ Below are instructions for how to create a dev environment for developing [nomad
 
 ## Basic infra
 
-1. Ensure you have [docker](https://docs.docker.com/engine/install/) installed. Docker nowadays comes with `docker compose` built in. Prior, you needed to install the stand-alone [docker-compose](https://docs.docker.com/compose/install/).
+1. Ensure you have [docker](https://docs.docker.com/engine/install/) installed. Docker nowadays comes with `docker compose` built in. Prior, you need to install the stand-alone [docker-compose](https://docs.docker.com/compose/install/).
 
 2. Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (v0.5.14 and above). `uv` is required to manage your development environment. It's recommended to use the standalone installer or perform a global installation. (`brew install uv` on macOS or `dnf install uv` on Fedora).
 
-
 3. Install [node.js](https://nodejs.org/en) (v20) and [yarn](https://classic.yarnpkg.com/en/docs/install/)(v1.22). We will use it to setup the GUI.
 
-4. For Windows users, nomad-lab processing doesn't work natively on the platform. We highly recommend using the [Devcontainer](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-plugin in VSCode to run the repository within a container, or alternatively, using [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/about) (WSL) to run the project.
+4. For Windows users, nomad-lab processing doesn't work natively on the platform. We highly recommend using the [Devcontainer](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) plugin in VSCode to run the repository within a container, or alternatively, using [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/about) (WSL) to run the project.
 
 5. Clone the forked repository.
 
@@ -31,7 +29,7 @@ plugin in VSCode to run the repository within a container, or alternatively, usi
    cd nomad-distro-dev
    ```
 
-6. Run the docker containers with docker compose in [detached](https://docs.docker.com/guides/language/golang/run-containers/#run-in-detached-mode) (--detach or -d) mode.
+6. Run the docker containers with `docker compose` in [detached](https://docs.docker.com/guides/language/golang/run-containers/#run-in-detached-mode) (--detach or -d) mode.
 
    ```sh
    docker compose up -d
@@ -45,7 +43,7 @@ plugin in VSCode to run the repository within a container, or alternatively, usi
 
 ## Developing nomad + plugins locally.
 
-This guide explains how to set up a streamlined development environment for nomad-lab and its plugins using [`uv` workspaces](https://docs.astral.sh/uv/concepts/workspaces/#workspaces). This approach eliminates the need for multiple pip install commands by leveraging a monorepo and a single installation step.
+This guide explains how to set up a streamlined development environment for nomad-lab and its plugins using [`uv` workspaces](https://docs.astral.sh/uv/concepts/workspaces/#workspaces). This approach eliminates the need for multiple `pip install` commands by leveraging a monorepo and a single installation step.
 
 In this example, we'll set up the development environment for a developer working on the following plugins: `nomad-parser-plugins-electronic` and `nomad-measurements`. The first plugin already comes as a dependency in this dev distribution. On the contrary, the second plugin is not listed as a dependency. In the following, we take a look at how to setup the environment in these two situations.
 
@@ -60,8 +58,7 @@ In this example, we'll set up the development environment for a developer workin
    ```
 > [!TIP]
 >
-> To get more information on how to use git submodules are used to structure bigger
-> software projects, read the this [Github blog entry](https://github.blog/open-source/git/working-with-submodules/) on this topic.
+> To get more information on how `git submodules` are used to structure bigger software projects, read the this [Github blog entry](https://github.blog/open-source/git/working-with-submodules/) on this topic.
 
 2. Add local plugins
 
@@ -87,9 +84,7 @@ In this example, we'll set up the development environment for a developer workin
 
    There are two ways of adding to these two lists:
 
-   a) You can use `uv add` which adds the dependency and the source in `pyproject.toml`
-   and sets up the environment.
-   Adding multiple plugins should be done in a single command:
+   a) You can use `uv add` which adds the dependency and the source in `pyproject.toml` and sets up the environment.  Adding multiple plugins should be done in a single command:
    ```bash
    uv add packages/nomad-measurements packages/PLUGIN_B packages/PLUGIN_C
    ```
@@ -112,9 +107,7 @@ In this example, we'll set up the development environment for a developer workin
      nomad-measurements = { workspace = true }
      ```
 
-   Some of the plugins are already listed under
-   `[project.dependencies]`. If you want to develop one of them, you
-   have to add them under `[tool.uv.sources]`. We do this for `nomad-parser-plugins-electronics`.
+   Some of the plugins are already listed under `[project.dependencies]`. If you want to develop one of them, you have to add them under `[tool.uv.sources]`. We do this for `nomad-parser-plugins-electronics`.
 
    ```toml
    [tool.uv.sources]
@@ -128,8 +121,7 @@ In this example, we'll set up the development environment for a developer workin
  > ```bash
  > uv add https://github.com/FAIRmat-NFDI/nomad-measurements.git --branch <specific-branch-name>
  > ```
- > This command will not include the plugin in the `packages/` folder, and hence this plugin
- > will not be editable.
+ > This command will not include the plugin in the `packages/` folder, and hence this plugin will not be editable.
 
 A complete list of plugins maintained by FAIRmat-NFDI can by found in the [overview page](https://github.com/FAIRmat-NFDI) of the FAIRmat-NFDI organisation.
 
@@ -144,18 +136,14 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv run poe setup
    ```
 
-   As part of the setup command, a `nomad.yaml` config file will be created, this file is used to configure nomad.
-   It will be placed in the top-level directory of your repository, where all commands are executed from.
+   As part of the setup command, a `nomad.yaml` config file will be created, this file is used to configure nomad. It will be placed in the top-level directory of your repository, where all commands are executed from.
 
    For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
 
 
 > [!NOTE]
 >
-> `uv sync` and `uv run` automatically manages the virtual environment for you.
-> There's no need to manually create or activate a venv.
-> Any `uv run` commands will automatically use the correct environment by default.
-> Read more about `uv` commands to manage the dependencies [here](https://docs.astral.sh/uv/concepts/projects/#managing-dependencies).
+> `uv sync` and `uv run` automatically manages the virtual environment for you. There's no need to manually create or activate a venv. Any `uv run` commands will automatically use the correct environment by default. Read more about `uv` commands to manage the dependencies [here](https://docs.astral.sh/uv/concepts/projects/#managing-dependencies).
 
 2. Running `nomad` api app (equivalent to running `uv run nomad admin run appworker`).
 
@@ -173,7 +161,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 >
 > `uv run poe gui` maps to `yarn run`, so here you can replace `start` with commands like `test`, `build`, etc.
 
-4. Run the docs server (optional: only if you wish to run the documentation server):
+4. [Optional] Run the docs server (only if you wish to run the documentation server):
 
 Add the `nomad-docs` repository as a submodule (if you have added it as a submodule already, skip this step):
 
@@ -188,12 +176,12 @@ Just like adding a new plugin, use `uv` to add `nomad-docs` to the environment:
 
 At this moment, you can commit the changes made to your `nomad-dev-distro`.
 
-Now, everytime you wanna start the docs server, run the following:
+Now, everytime you want to start the docs server, run the following:
    ```bash
    uv run poe docs
    ```
 
-5. Run the remote tools hub server (optional: only if you wish to use the remote tools hub):
+5. [Optional] Run the remote tools hub server (only if you wish to use the remote tools hub):
 
    ```bash
    uv run poe hub
@@ -221,7 +209,7 @@ Now, everytime you wanna start the docs server, run the following:
    uv run poe lint
    ```
 
-   You can invoke ruff separately using `uv run ruff` too.
+   You can invoke `ruff` separately using `uv run ruff` too.
 
 8. Adding new plugins
 
@@ -239,11 +227,9 @@ Now, everytime you wanna start the docs server, run the following:
    git rm <path-to-submodule>
    ```
 
-   Then you can remove the plugin from `[tool.uv.sources]` in `pyproject.toml` to
-   stop uv from using the local plugin repository.
+   Then you can remove the plugin from `[tool.uv.sources]` in `pyproject.toml` to stop `uv` from using the local plugin repository.
 
-   Additionally, if you want to remove the plugin from being a dependency of your
-   NOMAD installation, you can use `uv` to entirely remove it:
+   Additionally, if you want to remove the plugin from being a dependency of your NOMAD installation, you can use `uv` to entirely remove it:
 
    ```bash
    uv remove <plugin-name>
@@ -262,7 +248,7 @@ Now, everytime you wanna start the docs server, run the following:
    uv remove --package nomad-lab numpy
    ```
 
-11. Generating gui test artifacts and nomad requirements files
+11. Generating GUI test artifacts and nomad requirements files
 
     ```bash
     uv run poe gen-gui-test-artifacts
@@ -302,8 +288,6 @@ To keep your fork up to date with the latest changes from the original repositor
 
 2. Fetch the Latest Changes from upstream
 
-   Fetch the latest commits from the upstream repository:
-
    ```bash
    git fetch upstream
    ```
@@ -337,10 +321,6 @@ To keep your fork up to date with the latest changes from the original repositor
       uv pip install 'phonopy==2.11.0' --no-build-isolation
    ```
 
-2. Failed to install pycifrw.
+2. Failed to install `pycifrw`.
 
    The error usually indicates that clang was missing. `error: command 'clang'`. Installing `clang` should fix this issue.
-
-
-
-
