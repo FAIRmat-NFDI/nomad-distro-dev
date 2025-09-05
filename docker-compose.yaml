@@ -92,7 +92,11 @@ services:
       - "9000:9000"
     environment:
       # All containers will join this network
-      DOCKER_NETWORK_NAME: nomad_oasis_network
+      # DOCKER_NETWORK_NAME: nomad_oasis_network
+      OAUTH_CLIENT_ID: "nomad_public"
+      OAUTH_CLIENT_SECRET: ""
+      # export JUPYTERHUB_CRYPT_KEY=$(openssl rand -hex 32)
+      JUPYTERHUB_CRYPT_KEY: "97664b8cc8f59908628863c6d245afb8b83f492e9943323a8375ab36694fb194"
 
 networks:
   default:
