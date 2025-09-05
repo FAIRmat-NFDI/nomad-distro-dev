@@ -1,3 +1,34 @@
+hub:
+  allow_named_servers: true
+  base_url: /fairdi/nomad/latest/north
+  config:
+    Authenticator:
+      admin_users:
+      - test
+      allow_all: true
+      auto_login: true
+      enable_auth_state: true
+    GenericOAuthenticator:
+      authorize_url: https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_test/protocol/openid-connect/auth
+      login_service: keycloak
+      oauth_callback_url: http://localhost:9000/fairdi/nomad/latest/north/hub/oauth_callback
+      scope:
+      - openid
+      - profile
+      token_url: https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_test/protocol/openid-connect/token
+      userdata_params:
+        state: state
+      userdata_url: https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_test/protocol/openid-connect/userinfo
+      username_key: preferred_username
+    JupyterHub:
+      authenticator_class: generic-oauth
+  shutdown_on_logout: true
+nomad:
+  api_url: http://localhost:8000/fairdi/nomad/latest/api
+  north_docker_network: nomad_oasis_network
+  north_docker_prefix: nomad_oasis_north
+  north_hub_host: localhost
+  north_hub_port: 9000
 profile_list:
 - default: false
   description: Basic jupyter run with an empty notebook or on given notebook file.
