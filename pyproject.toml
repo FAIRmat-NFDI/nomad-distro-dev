@@ -21,6 +21,7 @@ dependencies = [
   "nomad-parser-plugins-atomistic>=1.0.6",
   "nomad-parser-plugins-database>=1.0",
   "nomad-external-eln-integrations",
+  "nomad-dtu-nanolab-plugin",
 ]
 
 [tool.uv.workspace]
@@ -32,6 +33,7 @@ nomad-aitoolkit = { git = "https://github.com/FAIRmat-NFDI/nomad-aitoolkit.git",
 nomad-porous-materials = { git = "https://github.com/FAIRmat-NFDI/nomad-porous-materials.git", rev = "522f4a3208077f534f1c5e886527ee2104283d0b" }
 perovskite-solar-cell-database = { git = "https://github.com/FAIRmat-NFDI/nomad-perovskite-solar-cells-database.git", tag = "v0.1.1" }
 nomad-external-eln-integrations = { git = "https://github.com/FAIRmat-NFDI/nomad-external-eln-integrations", rev = "de8050effb510fc2be0974cb08d44b475791b0a5" }
+nomad-dtu-nanolab-plugin = { workspace = true }
 
 [tool.uv]
 extra-index-url = [
@@ -40,6 +42,10 @@ extra-index-url = [
 dev-dependencies = [
   "nomad-lab[parsing, infrastructure, dev]>=1.3.4",
   "poethepoet>=0.29.0",
+]
+override-dependencies = [
+    'python-magic-bin; sys_platform=="win32"',
+    'python-magic; sys_platform == "never"',
 ]
 constraint-dependencies = ["hyperspy>=1.7.6"]
 required-version = ">=0.5.14"
@@ -79,12 +85,14 @@ cmd = "nomad admin run hub"
 cwd = "packages/nomad-FAIR"
 
 [tool.poe.tasks.gui]
-cmd = "yarn run"
+cmd = '"C:/Program Files (x86)/Yarn/bin/yarn.cmd" run'
 cwd = "packages/nomad-FAIR/gui"
+env = { NODE_EXE = "C:/Users/indiogo/node-v20.19.5-win-x86/node.exe" } 
 
 [tool.poe.tasks.gui-setup]
-cmd = "yarn"
+cmd = '"C:/Program Files (x86)/Yarn/bin/yarn.cmd"'
 cwd = "packages/nomad-FAIR/gui"
+env = { NODE_EXE = "C:/Users/indiogo/node-v20.19.5-win-x86/node.exe" }
 
 [tool.poe.tasks.gen-gui-test-env]
 cmd = "python -W ignore -m nomad.cli dev gui-config"
