@@ -52,15 +52,15 @@ lint = ["ruff-lint", "ruff-format"]
 
 [tool.poe.tasks.start]
 cmd = "nomad admin run appworker --dev"
-env = { NOMAD_SERVICES_MODE = "development", NOMAD_SERVICES_API_SECRET = "long-secret-that-is-used-only-for-development" }
+env = { NOMAD_SERVICES_MODE = "development" }
 
 [tool.poe.tasks.cpuworker]
 cmd = "nomad admin run action-cpu-worker"
-env = { NOMAD_SERVICES_MODE = "development", NOMAD_SERVICES_API_SECRET = "long-secret-that-is-used-only-for-development" }
+env = { NOMAD_SERVICES_MODE = "development" }
 
 [tool.poe.tasks.gpuworker]
 cmd = "nomad admin run action-gpu-worker"
-env = { NOMAD_SERVICES_MODE = "development", NOMAD_SERVICES_API_SECRET = "long-secret-that-is-used-only-for-development" }
+env = { NOMAD_SERVICES_MODE = "development" }
 
 [tool.poe.tasks.config]
 shell = """
