@@ -37,3 +37,6 @@
 [submodule "packages/pynxtools-em"]
 	path = packages/pynxtools-em
 	url = https://github.com/FAIRmat-NFDI/pynxtools-em
+[submodule "packages/test-north"]
+	path = packages/test-north
+	url = git@github.com:RubelMozumder/test-north.git

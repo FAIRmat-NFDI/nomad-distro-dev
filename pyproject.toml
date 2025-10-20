@@ -30,6 +30,7 @@ dependencies = [
   "pynxtools-mpes",
   "pynxtools-xrd",
   "pynxtools-camels",
+  "test-north",
 ]
 
 [tool.uv.workspace]
@@ -52,6 +53,7 @@ pynxtools-mpes = { workspace = true }
 pynxtools-xrd = { workspace = true }
 pynxtools-camels = { workspace = true }
 pynxtools-em = { workspace = true }
+test-north = { workspace = true }
 
 [tool.uv]
 extra-index-url = [
