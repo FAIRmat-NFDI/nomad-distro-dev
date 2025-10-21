@@ -31,6 +31,7 @@ dependencies = [
   "pynxtools-xrd",
   "pynxtools-camels",
   "test-north",
+  "nomad-tajine-plugin",
 ]
 
 [tool.uv.workspace]
@@ -54,6 +55,7 @@ pynxtools-xrd = { workspace = true }
 pynxtools-camels = { workspace = true }
 pynxtools-em = { workspace = true }
 test-north = { workspace = true }
+nomad-tajine-plugin = { workspace = true }
 
 [tool.uv]
 extra-index-url = [
