@@ -31,9 +31,6 @@
 [submodule "packages/pynxtools-camels"]
 	path = packages/pynxtools-camels
 	url = https://github.com/FAIRmat-NFDI/pynxtools-camels.git
-[submodule "packages/nexus_definitions"]
-	path = packages/nexus_definitions
-	url = git@github.com:FAIRmat-NFDI/nexus_definitions.git
 [submodule "packages/pynxtools-em"]
 	path = packages/pynxtools-em
 	url = https://github.com/FAIRmat-NFDI/pynxtools-em

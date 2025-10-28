@@ -61,19 +61,29 @@ nomad-tajine-plugin = { workspace = true }
 extra-index-url = [
   "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple",
 ]
-dev-dependencies = [
-  "nomad-lab[parsing, infrastructure, dev]>=1.3.4",
-  "poethepoet>=0.29.0",
-]
 constraint-dependencies = ["hyperspy>=1.7.6"]
 required-version = ">=0.5.14"
+
+[dependency-groups]
+dev = ["nomad-lab[parsing, infrastructure, dev]>=1.3.4", "poethepoet>=0.29.0"]
 
 [tool.poe.tasks]
 submodule = "git submodule update --init --recursive"
 docker = "docker compose up -d"
-start = "nomad admin run appworker"
 setup = ["gui-env", "gui-setup", "docker", "config"]
 lint = ["ruff-lint", "ruff-format"]
+
+[tool.poe.tasks.start]
+cmd = "nomad admin run appworker --dev"
+env = { NOMAD_SERVICES_MODE = "development" }
+
+[tool.poe.tasks.cpuworker]
+cmd = "nomad admin run action-cpu-worker"
+env = { NOMAD_SERVICES_MODE = "development" }
+
+[tool.poe.tasks.gpuworker]
+cmd = "nomad admin run action-gpu-worker"
+env = { NOMAD_SERVICES_MODE = "development" }
 
 [tool.poe.tasks.config]
 shell = """
@@ -95,7 +105,7 @@ capture_stdout = "packages/nomad-FAIR/gui/.env.development"
 
 [tool.poe.tasks.docs]
 cmd = "mkdocs serve"
-cwd = "packages/nomad-FAIR"
+cwd = "packages/nomad-docs"
 
 [tool.poe.tasks.ruff-lint]
 cmd = "ruff check ."
