@@ -32,7 +32,21 @@ dependencies = [
   "pynxtools-camels",
   "test-north",
   "nomad-tajine-plugin",
+  "cookiecutter",
+  "cruft",
+  "numpy>=2.0", # can be removed if updated in nomad-lab
+ "elasticsearch>=7.17,<8" # can be removed if updated in nomad-lab
+
 ]
+[project.optional-dependencies]
+  dev = [
+  "ipython",
+  "pytest",
+  "pytest-cov",
+  "coverage",
+  "pre-commit"
+  ]
+
 
 [tool.uv.workspace]
 members = ["packages/*"]
