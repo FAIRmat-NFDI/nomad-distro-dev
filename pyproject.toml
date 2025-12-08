@@ -37,7 +37,6 @@ nomad-external-eln-integrations = { git = "https://github.com/FAIRmat-NFDI/nomad
 extra-index-url = [
   "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple",
 ]
-constraint-dependencies = ["hyperspy>=1.7.6"]
 required-version = ">=0.5.14"
 
 [dependency-groups]
