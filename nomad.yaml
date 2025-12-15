@@ -3,3 +3,9 @@ services:
 
 keycloak:
   realm_name: "fairdi_nomad_test"
+
+oasis:
+  is_oasis: false
+
+client:
+  user_management_enabled: false
