@@ -1,3 +1,6 @@
 [submodule "packages/nomad-FAIR"]
 	path = packages/nomad-FAIR
 	url  = git@gitlab.mpcdf.mpg.de:nomad-lab/nomad-FAIR.git
+[submodule "packages/nomad-simulation-examples"]
+	path = packages/nomad-simulation-examples
+	url = git@github.com:FAIRmat-NFDI/nomad-simulation-examples.git

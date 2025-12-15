@@ -1,2 +1,5 @@
+services:
+  mode: development
+
 keycloak:
   realm_name: "fairdi_nomad_test"
