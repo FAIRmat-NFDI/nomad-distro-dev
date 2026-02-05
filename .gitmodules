@@ -34,3 +34,9 @@
 [submodule "packages/pynxtools-em"]
 	path = packages/pynxtools-em
 	url = https://github.com/FAIRmat-NFDI/pynxtools-em
+[submodule "packages/test-north"]
+	path = packages/test-north
+	url = git@github.com:RubelMozumder/test-north.git
+[submodule "packages/nomad-tajine-plugin"]
+	path = packages/nomad-tajine-plugin
+	url = git@github.com:FAIRmat-NFDI/nomad-tajine-plugin.git
