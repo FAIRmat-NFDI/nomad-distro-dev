@@ -15,7 +15,10 @@
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true
-  }
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.quickSuggestionsDelay": 1,
+  "editor.suggest.snippetsPreventQuickSuggestions": false
 
 
 }
