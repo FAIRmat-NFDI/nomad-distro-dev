@@ -39,6 +39,7 @@ extra-index-url = [
 ]
 required-version = ">=0.5.14"
 extra-build-dependencies = { flatdict = ["setuptools<82.0.0"] }
+constraint-dependencies = ["optimade<1.4.0"]  # `optimade.server.config.CONFIG` removed
 
 [dependency-groups]
 dev = ["nomad-lab[infrastructure, dev]>=1.3.4", "poethepoet>=0.29.0"]
