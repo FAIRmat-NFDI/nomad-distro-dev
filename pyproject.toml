@@ -38,7 +38,8 @@ extra-index-url = [
   "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple",
 ]
 required-version = ">=0.5.14"
-extra-build-dependencies = { flatdict = ["setuptools<82.0.0"] }
+
+constraint-dependencies = ["optimade<1.1"]
 
 [dependency-groups]
 dev = ["nomad-lab[infrastructure, dev]>=1.3.4", "poethepoet>=0.29.0"]
