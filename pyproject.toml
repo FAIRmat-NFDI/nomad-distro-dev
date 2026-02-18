@@ -6,10 +6,12 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 dependencies = [
+  "nomad-lab[infrastructure]>=1.3.10",
   "perovskite-solar-cell-database",
   'nomad-porous-materials; sys_platform != "win32"',
   "nomad-aitoolkit",
   "nomad-simulations>=0.3.2",
+  "pynxtools[apm,ellips,mpes,raman,xps,xrd]>=0.10.0",
   "nomad-schema-plugin-run>=1.0.1",
   "nomad-normalizer-plugin-dos>=1.0",
   "nomad-normalizer-plugin-soap>=1.0",
@@ -35,19 +37,29 @@ nomad-lab = { workspace = true }
 extra-index-url = [
   "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple",
 ]
-dev-dependencies = [
-  "nomad-lab[dev,infrastructure,parsing]>=1.3.4",
-  "poethepoet>=0.29.0",
-]
-constraint-dependencies = ["hyperspy>=1.7.6"]
 required-version = ">=0.5.14"
+constraint-dependencies = ["flatdict>=4.1.0"]
+
+[dependency-groups]
+dev = ["nomad-lab[infrastructure, dev]>=1.3.4", "poethepoet>=0.29.0"]
 
 [tool.poe.tasks]
 submodule = "git submodule update --init --recursive"
 docker = "docker compose up -d"
-start = "nomad admin run appworker"
 setup = ["gui-env", "gui-setup", "docker", "config"]
 lint = ["ruff-lint", "ruff-format"]
+
+[tool.poe.tasks.start]
+cmd = "nomad admin run appworker --dev"
+env = { NOMAD_SERVICES_MODE = "development" }
+
+[tool.poe.tasks.cpuworker]
+cmd = "nomad admin run action-cpu-worker"
+env = { NOMAD_SERVICES_MODE = "development" }
+
+[tool.poe.tasks.gpuworker]
+cmd = "nomad admin run action-gpu-worker"
+env = { NOMAD_SERVICES_MODE = "development" }
 
 [tool.poe.tasks.config]
 shell = """
@@ -90,12 +102,12 @@ capture_stdout = "packages/nomad-FAIR/gui/tests/env.js"
 env = { NOMAD_CONFIG = "packages/nomad-FAIR/gui/tests/nomad.yaml" }
 
 [tool.poe.tasks.gen-nomad-lock]
-cmd = "uv pip compile -U --universal -p 3.11 --extra parsing --extra infrastructure --extra dev --annotation-style=line pyproject.toml requirements.txt"
+cmd = "uv pip compile -U --universal -p 3.11 --extra infrastructure --extra dev --annotation-style=line pyproject.toml requirements.txt"
 capture_stdout = "packages/nomad-FAIR/requirements-dev.txt"
 cwd = "packages/nomad-FAIR"
 deps = ["gen-nomad-lock-without-dev"]
 
 [tool.poe.tasks.gen-nomad-lock-without-dev]
-cmd = "uv pip compile -U --universal -p 3.11 --extra parsing --extra infrastructure --annotation-style=line pyproject.toml"
+cmd = "uv pip compile -U --universal -p 3.11 --extra infrastructure --annotation-style=line pyproject.toml"
 cwd = "packages/nomad-FAIR"
 capture_stdout = "packages/nomad-FAIR/requirements.txt"
