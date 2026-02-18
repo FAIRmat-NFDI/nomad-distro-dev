@@ -1,0 +1,57 @@
+- display_name: "tutorial-query-nomad-archive"
+  slug: "tutorial-query-nomad-archive"
+  description: "descritprion"
+  kubespawner_override:
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/ai-toolkit/tutorial-query-nomad-archive:refatoring
+    image_pull_policy: "Always"
+    default_url: /notebooks/query_nomad_archive.ipynb
+- display_name: "tutorial-dos-similarity-search"
+  slug: "tutorial-dos-similarity-search"
+  description: "descritprion"
+  kubespawner_override:
+    image: gitlab-registry.mpcdf.mpg.de/nomad-lab/ai-toolkit/tutorial-dos-similarity-search:updates
+    image_pull_policy: "Always"
+    default_url: /notebooks/dos_similarity_search.ipynb
+
+- display_name: "Default: Shared, 8 CPU cores"
+  description: "Your code will run on a shared machine with CPU only."
+  default: True
+- display_name: "Personal, 4 CPU cores & 26GB RAM, 1 NVIDIA Tesla K80 GPU"
+  description: "Your code will run a personal machine with a GPU."
+  kubespawner_override:
+    extra_resource_limits:
+      nvidia.com/gpu: "1"
+- display_name: Demo - profile_list entry 1
+  description: >-
+    Demo description for profile_list entry 1, and it should look good even
+    though it is a bit lengthy.
+  slug: demo-1
+  profile_options:
+    image:
+      display_name: Image
+      choices:
+        base:
+          display_name: 'jupyter/base-notebook:latest'
+          kubespawner_override:
+            image: 'jupyter/base-notebook:latest'
+        minimal:
+          display_name: 'jupyter/minimal-notebook:latest'
+          default: true
+          kubespawner_override:
+            image: 'jupyter/minimal-notebook:latest'
+      unlisted_choice:
+        enabled: true
+        display_name: Other image
+        display_name_in_choices: Enter image manually
+        validation_regex: '^jupyter/.+:.+$'
+        validation_message: 'Must be an image matching ^jupyter/<name>:<tag>$'
+        kubespawner_override:
+          image: '{value}'
+  kubespawner_override:
+    default_url: /lab
+- display_name: Demo - profile_list entry 2
+  slug: demo-2
+  kubespawner_override:
+    extra_resource_guarantees:
+      nvidia.com/gpu: '1'
+

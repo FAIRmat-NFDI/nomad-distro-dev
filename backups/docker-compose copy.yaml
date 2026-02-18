@@ -1,0 +1,252 @@
+#
+# Copyright (c) 2018-2020 The NOMAD Authors.
+#
+# This file is part of NOMAD.
+# See https://nomad-lab.eu for further info.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+services:
+  # broker for celery
+
+  rabbitmq:
+    restart: "no"
+    image: rabbitmq:3.11.5
+    container_name: nomad_rabbitmq
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCLNMEQG
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - 5672:5672
+    volumes:
+      - nomad_rabbitmq:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "--silent", "--quiet", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 10s
+
+
+  # the search engine
+  elastic:
+    restart: "no"
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.27
+    container_name: nomad_elastic
+    environment:
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - cluster.routing.allocation.disk.threshold_enabled=true
+      - cluster.routing.allocation.disk.watermark.flood_stage=1gb
+      - cluster.routing.allocation.disk.watermark.low=4gb
+      - cluster.routing.allocation.disk.watermark.high=2gb
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - 9200:9200
+    volumes:
+      - nomad_elastic:/usr/share/elasticsearch/data
+    healthcheck:
+      test:
+        - "CMD"
+        - "curl"
+        - "--fail"
+        - "--silent"
+        - "http://elastic:9200/_cat/health"
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 60s
+
+  # the user data db
+  mongo:
+    restart: "no"
+    image: mongo:5.0.6
+    container_name: nomad_mongo
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    ports:
+      - 27017:27017
+    volumes:
+      - nomad_mongo:/data/db
+      - nomad_mongo_config:/data/configdb
+    command: mongod
+    # --logpath=/dev/null # --quiet
+    healthcheck:
+      test:
+        - "CMD"
+        - "mongo"
+        - "mongo:27017/test"
+        - "--quiet"
+        - "--eval"
+        - "'db.runCommand({ping:1}).ok'"
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 10s
+
+  north:
+    build:
+      context: ./packages/nomad-north/images/hub/
+      dockerfile: Dockerfile
+      args:
+        JUPYTERHUB_VERSION: latest
+    restart: always
+    # image: nomad_north
+    container_name: nomad_north
+    networks:
+      - default
+    volumes:
+      # The JupyterHub configuration file
+      # - "./images/hub/jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py:ro"
+      - "./profile_list_generated.yaml:/srv/jupyterhub/profile_list.yaml:ro"
+      # Bind Docker socket on the host so we can connect to the daemon from
+      # within the container
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+      # Bind Docker volume on host for JupyterHub database and cookie secrets
+      - "nomad_north:/data"
+    ports:
+      - "9000:9000"
+      - "8081:8081"
+    environment:
+      # All containers will join this network
+      # DOCKER_NETWORK_NAME: nomad_oasis_network
+      OAUTH_CLIENT_ID: "nomad_hub"
+      OAUTH_CLIENT_SECRET: "AmvAjFgiAkpTj9vQ8xBFa5hrNbvfSk5n"
+      # export JUPYTERHUB_CRYPT_KEY=$(openssl rand -hex 32)
+      NOMAD_API_URL: "http://app:80/api/v1"
+      JUPYTERHUB_CRYPT_KEY: "97664b8cc8f59908628863c6d245afb8b83f492e9943323a8375ab36694fb194"
+
+
+ # nomad worker (processing)
+  worker:
+    build:
+      context: ./packages/nomad-FAIR/
+      dockerfile: Dockerfile
+    restart: always
+    # image: nomad_north
+    networks:
+      - default
+    # image: ghcr.io/fairmat-nfdi/nomad-distro-template:main
+    # platform: linux/amd64
+    container_name: nomad_oasis_worker
+    environment:
+      NOMAD_SERVICE: nomad_oasis_worker
+      NOMAD_RABBITMQ_HOST: rabbitmq
+      NOMAD_ELASTIC_HOST: elastic
+      NOMAD_MONGO_HOST: mongo
+      NOMAD_LOGSTASH_HOST: logtransfer
+      NOMAD_SERVICES_API_SECRET: "oNMi4sl7paz22erzO2I6YuQpEBy8YTli"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elastic:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    volumes:
+      - ./nomad.yaml:/app/nomad.yaml
+      - ./.volumes/fs:/app/.volumes/fs
+    command: python -m celery -A nomad.processing worker -l info -Q celery --max-tasks-per-child 128
+
+
+  # nomad app (api + proxy)
+  app:
+    build:
+      context: ./packages/nomad-FAIR/
+      dockerfile: Dockerfile
+    restart: always
+    # image: nomad_north
+    networks:
+      - default
+    # image: ghcr.io/fairmat-nfdi/nomad-distro-template:main
+    # platform: linux/amd64
+    container_name: nomad_oasis_app
+    environment:
+      NOMAD_SERVICE: nomad_oasis_app
+      NOMAD_SERVICES_API_PORT: 80
+      NOMAD_FS_EXTERNAL_WORKING_DIRECTORY: "$PWD"
+      NOMAD_RABBITMQ_HOST: rabbitmq
+      NOMAD_ELASTIC_HOST: elastic
+      NOMAD_MONGO_HOST: mongo
+      NOMAD_LOGSTASH_HOST: logtransfer
+      NOMAD_NORTH_HUB_HOST: north
+      NOMAD_SERVICES_API_SECRET: "oNMi4sl7paz22erzO2I6YuQpEBy8YTli"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elastic:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+      # north:
+      #   condition: service_started
+    volumes:
+      - ./nomad.yaml:/app/nomad.yaml
+      - ./.volumes/fs:/app/.volumes/fs
+    command: python -m nomad.cli admin run app --with-gui --gunicorn --host 0.0.0.0
+    healthcheck:
+      test:
+        - "CMD"
+        - "curl"
+        - "--fail"
+        - "--silent"
+        - "http://localhost:8000/-/health"
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 10s
+    ports:
+      - 8000:8000
+
+  # nomad proxy (a reverse proxy for nomad)
+  proxy:
+    restart: unless-stopped
+    image: docker.io/nginx:1.27.4-alpine
+    container_name: nomad_oasis_proxy
+    command: nginx -g 'daemon off;'
+    volumes:
+      # Shared config
+      - ./configs/nginx_base_conf:/etc/nginx/conf.d/nginx_base_conf:ro
+      # HTTP
+      - ./configs/nginx_http.conf:/etc/nginx/conf.d/default.conf:ro
+      # HTTPS (you need to have an SSL certificate)
+      # - ./configs/nginx_https.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      app:
+        condition: service_healthy
+      worker:
+        condition: service_started # TODO: service_healthy
+      # north:
+        # condition: service_healthy
+    ports:
+      - 80:80
+      # - 443:443
+
+networks:
+  default:
+    name: nomad_oasis_network
+    driver_opts:    # pass options to driver for network creation
+      com.docker.network.bridge.host_binding_ipv4: 127.0.0.1
+
+volumes:
+  nomad_mongo:
+  nomad_mongo_config:
+  nomad_elastic:
+  nomad_rabbitmq:
+  nomad_north:
+
