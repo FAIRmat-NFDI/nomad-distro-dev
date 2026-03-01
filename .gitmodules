@@ -7,3 +7,21 @@
 [submodule "packages/nomad-plugin-fairmat"]
 	path = packages/nomad-plugin-fairmat
 	url = https://github.com/marzieh-saeedimasine/nomad-plugin-fairmat.git
+[submodule "packages/nomad-example-plugin"]
+	path = packages/nomad-example-plugin
+	url = https://github.com/andreaa93/nomad-aa-plugin.git
+[submodule "packages/nomad-material-processing"]
+	path = packages/nomad-material-processing
+	url = https://github.com/FAIRmat-NFDI/nomad-material-processing.git
+[submodule "packages/nomad-analysis"]
+	path = packages/nomad-analysis
+	url = https://github.com/FAIRmat-NFDI/nomad-analysis.git
+[submodule "packages/nomad-simulations"]
+	path = packages/nomad-simulations
+	url = https://github.com/FAIRmat-NFDI/nomad-simulations.git
+[submodule "packages/nomad-ikz-plugin"]
+	path = packages/nomad-ikz-plugin
+	url = https://github.com/IKZ-Berlin/nomad-ikz-plugin.git
+[submodule "packages/nomad-schema-plugin-nmr"]
+	path = packages/nomad-schema-plugin-nmr
+	url = https://github.com/FAIRmat-NFDI/nomad-schema-plugin-nmr.git
