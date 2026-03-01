@@ -1,0 +1,117 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+]
+name = "nomad-plugin-spectroscopy"
+description = "NOMAD plugin for parsing spectroscopy data (IR, Raman, UV-Vis)"
+version = "0.1.0"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Marzieh Saeedimasine", email = "marzieh.saeedimasine@gmail.com" },
+]
+maintainers = [
+    { name = "Marzieh Saeedimasine", email = "marzieh.saeedimasine@gmail.com" },
+]
+license = { file = "LICENSE" }
+dependencies = [
+    "nomad-lab>=1.4.0",
+    "pydantic",
+]
+
+[project.urls]
+Repository = "https://github.com/marzieh-saeedimasine/nomad-plugin-spectroscopy"
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "pytest",
+    "structlog",
+    "mkdocs",
+    "mkdocs-material==8.1.1",
+    "pymdown-extensions",
+    "mkdocs-click",
+    "pytest-asyncio",
+]
+
+[tool.uv]
+extra-index-url = [
+  "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple",
+]
+    
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+line-length = 88
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "UP",
+    "I",
+    "PL",
+]
+
+ignore = [
+    "F403",
+    "PLC0415",
+    "E501",
+]
+
+fixable = ["ALL"]
+
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["PLC0415"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.entry-points.'nomad.plugin']
+spectroscopy = "nomad_plugin_spectroscopy.schema_packages:spectroscopy"
+spectroscopy_manifest_parser = "nomad_plugin_spectroscopy.parsers:manifest_parser"
+spectroscopy_spectrum_parser = "nomad_plugin_spectroscopy.parsers:spectrum_parser"

@@ -1,0 +1,8 @@
+field,value
+run_id,20251205T151400Z
+n_chemicals,4
+n_mixtures,260
+chemical_0_name,LiPF6_pure
+chemical_1_name,EC_pure
+chemical_2_name,DEC_pure
+chemical_3_name,PES_pure
