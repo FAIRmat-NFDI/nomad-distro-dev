@@ -1,0 +1,83 @@
+#
+# Copyright (c) 2018-2020 The NOMAD Authors.
+#
+# This file is part of NOMAD.
+# See https://nomad-lab.eu for further info.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+services:
+  # broker for celery
+  rabbitmq:
+    restart: "no"
+    image: rabbitmq:3.11.5
+    container_name: nomad_rabbitmq
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCLNMEQG
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - 5672:5672
+    volumes:
+      - nomad_rabbitmq:/var/lib/rabbitmq
+
+  # the search engine
+  elastic:
+    restart: "no"
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.27
+    container_name: nomad_elastic
+    environment:
+      - ES_JAVA_OPTS=-Xms512m -Xmx1g
+      - cluster.routing.allocation.disk.threshold_enabled=true
+      - cluster.routing.allocation.disk.watermark.flood_stage=1gb
+      - cluster.routing.allocation.disk.watermark.low=4gb
+      - cluster.routing.allocation.disk.watermark.high=2gb
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - 9200:9200
+    volumes:
+      - nomad_elastic:/usr/share/elasticsearch/data
+
+  # the user data db
+  mongo:
+    restart: "no"
+    image: mongo:5.0.6
+    container_name: nomad_mongo
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    ports:
+      - 27017:27017
+    volumes:
+      - nomad_mongo:/data/db
+      - nomad_mongo_config:/data/configdb
+    command: mongod
+    # --logpath=/dev/null # --quiet
+
+  temporal:
+    container_name: nomad_temporal
+    image: ghcr.io/fairmat-nfdi/temporal-dev-server:v1.4.0
+    volumes:
+      - nomad_temporal:/data
+    ports:
+      - 7233:7233
+      - 8080:8080
+volumes:
+  nomad_mongo:
+  nomad_mongo_config:
+  nomad_elastic:
+  nomad_rabbitmq:
+  nomad_temporal:
