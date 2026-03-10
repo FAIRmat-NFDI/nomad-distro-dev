@@ -18,21 +18,6 @@
 #
 
 services:
-  # broker for celery
-  rabbitmq:
-    restart: "no"
-    image: rabbitmq:3.11.5
-    container_name: nomad_rabbitmq
-    environment:
-      - RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCLNMEQG
-      - RABBITMQ_DEFAULT_USER=rabbitmq
-      - RABBITMQ_DEFAULT_PASS=rabbitmq
-      - RABBITMQ_DEFAULT_VHOST=/
-    ports:
-      - 5672:5672
-    volumes:
-      - nomad_rabbitmq:/var/lib/rabbitmq
-
   # the search engine
   elastic:
     restart: "no"
@@ -75,9 +60,9 @@ services:
     ports:
       - 7233:7233
       - 8080:8080
+
 volumes:
   nomad_mongo:
   nomad_mongo_config:
   nomad_elastic:
-  nomad_rabbitmq:
   nomad_temporal:
