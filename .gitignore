@@ -4,6 +4,8 @@ nomad.yaml
 .volumes
 .devcontainer/.devpod-internal
 tmp
+.env.north
+
 
 ## https://github.com/github/gitignore/blob/main/Python.gitignore
 
