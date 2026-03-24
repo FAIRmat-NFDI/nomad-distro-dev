@@ -304,6 +304,8 @@ services:
         JUPYTERHUB_VERSION: latest
     platform: linux/amd64
     container_name: nomad_north
+    # user: root
+    # user: '1000:991'
     # environment:
     #   NOMAD_SERVICE: nomad_north
     #   NOMAD_NORTH_DOCKER_NETWORK: nomad_network
