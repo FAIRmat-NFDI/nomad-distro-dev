@@ -130,6 +130,11 @@ A complete list of plugins maintained by FAIRmat-NFDI can by found in the [overv
 
 After the initial setup, here’s how to manage your daily development tasks.
 
+> [!TIP]
+>
+> You can use `uv tool install poethepoet` to install it as a CLI tool, 
+> allowing you to run commands directly with `poe ...` (e.g., `poe start` instead of `uv run poe start`).
+
 1. Update the environment (This step installs the necessary dependencies):
 
    ```bash
