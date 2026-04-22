@@ -1,0 +1,3 @@
+This is not a valid FHI-aims output file.
+It will trigger a parse failure in read_aims_output().
+Just some garbage text that doesn't match the expected format.
