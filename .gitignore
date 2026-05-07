@@ -32,6 +32,14 @@ MANIFEST
 uv.lock
 celerybeat-schedule*
 # nomad.yaml
+
+# pyproject.toml variants for local development
+pyproject.toml.local
+pyproject.toml.commit
+
+# Backup files
+*.backup
+*.pre-develop-backup
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.

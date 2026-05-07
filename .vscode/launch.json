@@ -37,11 +37,8 @@
       "type": "python",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/.venv/bin/pytest",
-      "justMyCode": false,
-      "env": {
-        "_PYTEST_RAISE": "1"
-      },
+      "justMyCode": true,
+      "module": "pytest",
       "args": ["-sv", "packages/nomad-FAIR/tests"]
     },
     {
@@ -54,14 +51,44 @@
       "args": [
         "parse",
         "--show-archive",
-        "packacges/nomad-FAIR/tests/data/parsers/vasp/vasp.xml"
+        "/home/nathan/Downloads/nomad_test_data/vasp_example/size_1/vasprun.xml"
+      ]
+    },
+    {
+      "name": "nomad test parser",
+      "type": "python",
+      "request": "launch",
+      "purpose": ["debug-test"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true,
+      "module": "pytest",
+      "args": [
+        "-sv",
+        "--rootdir=${workspaceFolder}",
+        "packages/nomad-parser-plugins-simulation/tests/parsers/test_vasp_parser.py"
       ]
     },
     {
       "name": "Python: Current File",
       "type": "python",
       "request": "launch",
-      "program": "${file}"
+      "program": "${file}",
+      "justMyCode": true
+    },
+    {
+      "name": "Python: Debug Single Test",
+      "type": "python",
+      "request": "launch",
+      "purpose": ["debug-test"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true,
+      "module": "pytest",
+      "args": [
+        "-sv",
+        "${file}::${selectedText}"
+      ]
     },
     {
       "name": "Python: Attach",

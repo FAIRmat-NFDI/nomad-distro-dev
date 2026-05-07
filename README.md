@@ -342,8 +342,44 @@ To keep your fork up to date with the latest changes from the original repositor
    ```
 
 2. Failed to install pycifrw.
-   
+
    The error usually indicates that clang was missing. `error: command 'clang'`. Installing `clang` should fix this issue.
+
+3. Installing optional dependencies (extras) from workspace members
+
+   **Problem**: Workspace members may define optional dependencies in `[project.optional-dependencies]` (e.g., `docs`, `dev`, `md`), but `uv sync` from the workspace root does not install these by default.
+
+   **Example**: The `nomad-simulations` package defines optional `docs` dependencies including `mkdocs-panzoom-plugin`, but running `uv sync --all-packages --all-extras` from the workspace root does not install them.
+
+   **Root cause**: In workspace mode, `uv sync` only recognizes optional dependencies and dependency groups defined at the **root** `pyproject.toml`, not from individual workspace members. Package-level `[project.optional-dependencies]` are only used when the package is installed standalone (e.g., via PyPI).
+
+   **Current Solution** (implemented in this workspace):
+
+   Documentation dependencies from `nomad-simulations` are **duplicated** in the root `pyproject.toml` as a `[dependency-groups].docs` entry. This allows workspace-wide installation with:
+   ```bash
+   uv sync --group docs
+   ```
+
+   **Why duplication is necessary**:
+   - Package `[project.optional-dependencies]` are for PyPI consumers
+   - Workspace `[dependency-groups]` are for workspace developers
+   - uv workspaces do not automatically bridge these two
+   - This is a known limitation as of uv v0.9.x
+
+   **Alternative approaches** (not currently used):
+
+   a. **Manual installation after each sync** (not reproducible):
+      ```bash
+      uv pip install mkdocs mkdocs-material mkdocs-panzoom-plugin mkdocs-awesome-pages-plugin pymdown-extensions mkdocs-click
+      ```
+
+   b. **Use uv run with temporary environment** (per-command overhead):
+      ```bash
+      cd packages/nomad-schema-plugins-simulations
+      uv run --extra docs mkdocs serve
+      ```
+
+   **Future improvement**: Monitor uv development for better handling of workspace member optional dependencies, then remove the duplication in root `pyproject.toml`.
    
 
 

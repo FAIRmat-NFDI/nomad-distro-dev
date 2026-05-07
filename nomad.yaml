@@ -7,5 +7,16 @@ keycloak:
 oasis:
   is_oasis: false
 
-client:
-  user_management_enabled: false
+plugins:
+  exclude:
+    # Exclude old parsers from nomad-parser-plugins-electronic
+    # Use new parsers from nomad-simulation-parsers instead
+    - "electronicparsers:vasp_parser_entry_point"
+    - "electronicparsers:exciting_parser_entry_point"
+    - "electronicparsers:abinit_parser_entry_point"
+    - "electronicparsers:quantumespresso_parser_entry_point"
+    - "electronicparsers:fhiaims_parser_entry_point"
+    - "electronicparsers:gpaw_parser_entry_point"
+    - "electronicparsers:crystal_parser_entry_point"
+    - "electronicparsers:octopus_parser_entry_point"
+    - "electronicparsers:wannier90_parser_entry_point"
