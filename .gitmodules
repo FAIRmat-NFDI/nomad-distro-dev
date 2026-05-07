@@ -4,3 +4,6 @@
 [submodule "packages/nomad-simulation-examples"]
 	path = packages/nomad-simulation-examples
 	url = git@github.com:FAIRmat-NFDI/nomad-simulation-examples.git
+[submodule "packages/nomad-reprocessing-plugin"]
+	path = packages/nomad-reprocessing-plugin
+	url = git@github.com:FAIRmat-NFDI/nomad-reprocessing-plugin.git

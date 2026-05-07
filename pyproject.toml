@@ -10,6 +10,7 @@ dependencies = [
   "nomad-simulations",
   "nomad-simulation-parsers",
   "nomad-simulation-examples",
+  "nomad-reprocessing-plugin",
   "nomad-schema-plugin-run>=1.0.1",
   "nomad-normalizer-plugin-dos>=1.0",
   "nomad-normalizer-plugin-soap>=1.0",
@@ -29,6 +30,7 @@ nomad-lab = { workspace = true }
 nomad-simulations = { workspace = true }
 nomad-simulation-parsers = { workspace = true }
 nomad-simulation-examples = { workspace = true }
+nomad-reprocessing-plugin = { workspace = true }
 nomad-nmr-schema = { git = "https://github.com/FAIRmat-NFDI/nomad-schema-plugin-nmr", branch = "main" }
 
 [dependency-groups]
