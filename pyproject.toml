@@ -58,6 +58,9 @@ extra-index-url = [
 ]
 required-version = ">=0.5.14"
 constraint-dependencies = ["flatdict>=4.1.0"]
+override-dependencies = [
+  "nomad-simulations @ file:///home/nathan/Documents/nomad-distro-schema/packages/nomad-schema-plugins-simulations",
+]
 
 [tool.poe.tasks]
 submodule = "git submodule update --init --recursive"
