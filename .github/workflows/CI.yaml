@@ -1,0 +1,41 @@
+name: Update Submodules and Create PR
+
+on:
+  schedule:
+    - cron: "0 17 * * 1" # Runs every Monday at 5 PM UTC
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  update-submodules:
+    if: github.repository == 'FAIRmat-NFDI/nomad-distro-dev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Initialize and Update Submodules
+        run: |
+          git submodule init
+          git submodule update --recursive --remote
+
+      - name: Check for Changes
+        id: check-changes
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: ${{ steps.check-changes.outputs.changed == 'true' }}
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Update submodules"
+          title: "Update Submodules"
+          body: "This pull request updates all submodules to their latest versions."
+          branch: update-submodules
+          base: main
