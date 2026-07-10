@@ -20,7 +20,7 @@ Below are instructions for how to create a dev environment for developing [nomad
 
 3. Install [node.js](https://nodejs.org/en) (v20) and [yarn](https://classic.yarnpkg.com/en/docs/install/)(v1.22). We will use it to setup the GUI.
 
-4. For Windows users, nomad-distro-dev currently works within the platform without WSL/Devcontainers. However, some plugins might not function correctly with Windows.
+4. For Windows users, nomad-distro-dev currently works with the platform without the need for WSL/Devcontainers. However, some NOMAD plugins might not function correctly with Windows.
 
 5. Clone the forked repository.
 
