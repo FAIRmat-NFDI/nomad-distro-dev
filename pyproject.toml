@@ -5,7 +5,10 @@ version = "0.1"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
-dependencies = ["nomad-lab[infrastructure]>=1.3.10"]
+dependencies = [
+  "nomad-lab[infrastructure]>=1.3.10",
+  # "nomad-gui==2.0.0a2.dev583",
+]
 
 [tool.uv.workspace]
 members = ["packages/*"]
@@ -73,10 +76,26 @@ cmd = "nomad admin run hub"
 cwd = "packages/nomad-FAIR"
 
 [tool.poe.tasks.gui]
-cmd = "yarn run"
+control.expr = "sys.platform"
+
+[[tool.poe.tasks.gui.switch]]
+case = "win32"
+cmd = "yarn.cmd run start"
+cwd = "packages/nomad-FAIR/gui"
+
+[[tool.poe.tasks.gui.switch]]
+cmd = "yarn run start"
 cwd = "packages/nomad-FAIR/gui"
 
 [tool.poe.tasks.gui-setup]
+control.expr = "sys.platform"
+
+[[tool.poe.tasks.gui-setup.switch]]
+case = "win32"
+cmd = "yarn.cmd"
+cwd = "packages/nomad-FAIR/gui"
+
+[[tool.poe.tasks.gui-setup.switch]]
 cmd = "yarn"
 cwd = "packages/nomad-FAIR/gui"
 
