@@ -257,13 +257,6 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv remove --package nomad-lab numpy
    ```
 
-1. Generating GUI test artifacts and nomad requirements files
-
-    ```bash
-    uv run poe gen-gui-test-artifacts
-    uv run poe gen-nomad-lock
-    ```
-
 1. Keeping Up-to-Date
 
     To pull updates from the main repository and submodules, run:
