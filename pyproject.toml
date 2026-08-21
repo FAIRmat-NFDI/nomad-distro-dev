@@ -35,7 +35,12 @@ lint = ["ruff-lint", "ruff-format"]
 
 [tool.poe.tasks.start]
 cmd = "nomad admin run appworker --dev"
+deps = ["start-info"]
 env = { NOMAD_SERVICES_MODE = "development" }
+
+[tool.poe.tasks.start-info]
+cmd = "python -c \"print('NOMAD GUI: http://localhost:8000/nomad-oasis/gui/v2/')\""
+verbosity = -1
 
 [tool.poe.tasks.cpuworker]
 cmd = "nomad admin run action-cpu-worker"
