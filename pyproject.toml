@@ -5,7 +5,7 @@ version = "0.1"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
-dependencies = ["nomad-lab[infrastructure]>=1.3.10"]
+dependencies = ["nomad-gui>=2.0.0b2", "nomad-lab[infrastructure]>=1.3.10"]
 
 [tool.uv.workspace]
 members = ["packages/*"]
@@ -30,7 +30,7 @@ dev = ["nomad-lab[infrastructure, dev]>=1.3.4", "poethepoet>=0.29.0"]
 [tool.poe.tasks]
 submodule = "git submodule update --init --recursive"
 docker = "docker compose up -d"
-setup = ["gui-env", "gui-setup", "docker", "config"]
+setup = ["docker", "config"]
 lint = ["ruff-lint", "ruff-format"]
 
 [tool.poe.tasks.start]
@@ -85,14 +85,17 @@ cmd = "yarn run start"
 cwd = "packages/nomad-FAIR/gui"
 
 [tool.poe.tasks.gui-setup]
+sequence = ["gui-env", "gui-install"]
+
+[tool.poe.tasks.gui-install]
 control.expr = "sys.platform"
 
-[[tool.poe.tasks.gui-setup.switch]]
+[[tool.poe.tasks.gui-install.switch]]
 case = "win32"
 cmd = "yarn.cmd"
 cwd = "packages/nomad-FAIR/gui"
 
-[[tool.poe.tasks.gui-setup.switch]]
+[[tool.poe.tasks.gui-install.switch]]
 cmd = "yarn"
 cwd = "packages/nomad-FAIR/gui"
 

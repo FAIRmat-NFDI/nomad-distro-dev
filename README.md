@@ -18,18 +18,16 @@ Below are instructions for how to create a dev environment for developing [nomad
 
 2. Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (v0.5.14 and above). `uv` is required to manage your development environment. It's recommended to use the standalone installer or perform a global installation. (`brew install uv` on macOS or `dnf install uv` on Fedora).
 
-3. Install [node.js](https://nodejs.org/en) (v20) and [yarn](https://classic.yarnpkg.com/en/docs/install/)(v1.22). We will use it to setup the GUI.
+3. For Windows users, nomad-distro-dev works natively on Windows. However, not all NOMAD plugins are tested on Windows, so there might be some bugs. If you face any issues, please file an issue in the respective plugin repository.
 
-4. For Windows users, nomad-distro-dev works natively on Windows. However, not all NOMAD plugins are tested on Windows, so there might be some bugs. If you face any issues, please file an issue in the respective plugin repository.
-
-5. Clone the forked repository.
+4. Clone the forked repository.
 
    ```bash
    git clone https://github.com/<your-username>/nomad-distro-dev.git
    cd nomad-distro-dev
    ```
 
-6. Run the docker containers with `docker compose` in [detached](https://docs.docker.com/guides/language/golang/run-containers/#run-in-detached-mode) (--detach or -d) mode.
+5. Run the docker containers with `docker compose` in [detached](https://docs.docker.com/guides/language/golang/run-containers/#run-in-detached-mode) (`--detach` or `-d`) mode.
 
    ```sh
    docker compose up -d
@@ -135,13 +133,13 @@ After the initial setup, here’s how to manage your daily development tasks.
 > You can use `uv tool install poethepoet` to install it as a CLI tool, 
 > allowing you to run commands directly with `poe ...` (e.g., `poe start` instead of `uv run poe start`).
 
-1. Update the environment (This step installs the necessary dependencies):
+1. Update the environment (this installs the necessary dependencies, including the new GUI):
 
    ```bash
    uv run poe setup
    ```
 
-   As part of the setup command, a `nomad.yaml` config file will be created, this file is used to configure nomad. It will be placed in the top-level directory of your repository, where all commands are executed from.
+   As part of the setup command, a `nomad.yaml` config file will be created. This file is used to configure NOMAD and will be placed in the top-level directory of your repository, where all commands are executed from. The new GUI requires neither Node.js nor a separate setup command.
 
    For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
 
@@ -150,21 +148,24 @@ After the initial setup, here’s how to manage your daily development tasks.
 >
 > `uv sync` and `uv run` automatically manages the virtual environment for you. There's no need to manually create or activate a venv. Any `uv run` commands will automatically use the correct environment by default. Read more about `uv` commands to manage the dependencies [here](https://docs.astral.sh/uv/concepts/projects/#managing-dependencies).
 
-2. Running `nomad` api app (equivalent to running `uv run nomad admin run appworker`).
+2. Run the NOMAD API app and new GUI (equivalent to running `uv run nomad admin run appworker --dev`):
 
    ```bash
    uv run poe start
    ```
 
-3. Start NOMAD GUI
+1. [Optional] Run the legacy GUI
+
+   The legacy GUI requires [Node.js](https://nodejs.org/en) v20 and [Yarn](https://classic.yarnpkg.com/en/docs/install/) v1.22. Set it up and start it in a separate terminal:
 
    ```bash
+   uv run poe gui-setup
    uv run poe gui start
    ```
 
 > [!TIP]
 >
-> `uv run poe gui` maps to `yarn run`, so here you can replace `start` with commands like `test`, `build`, etc.
+> `uv run poe gui` maps to `yarn run`, so you can replace `start` with commands such as `test` or `build`.
 
 4. [Optional] Run the docs server (only if you wish to run the documentation server):
 
@@ -276,8 +277,8 @@ Now, everytime you want to start the docs server, run the following:
 
 > [!NOTE]
 >
-> The nomad instance will be available on http://localhost:3000/nomad-oasis/gui, and expects to find the nomad API on localhost:8000, and the remotes tool hub on localhost:9000. If you are running the instance on a remote server, make sure to forward these ports locally.
-> As an alternative way to port forwarding, the backend URL for the GUI can be configured too. For that, the `REACT_APP_BACKEND_URL` in `packages/nomad-FAIR/gui/.env.development` can be modified to the appropriate API url.
+> The new GUI is served by the NOMAD API at http://localhost:8000/nomad-oasis/gui/v2/. The legacy GUI started with `uv run poe gui start` is available on http://localhost:3000/nomad-oasis/gui and expects to find the NOMAD API on localhost:8000 and the remote tools hub on localhost:9000. If you are running the instance on a remote server, make sure to forward the relevant ports locally.
+> As an alternative to port forwarding for the legacy GUI, configure its backend URL by changing `REACT_APP_BACKEND_URL` in `packages/nomad-FAIR/gui/.env.development`.
 
 ### Updating the fork
 
