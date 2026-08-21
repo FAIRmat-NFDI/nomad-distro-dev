@@ -54,9 +54,10 @@ In this example, we'll set up the development environment for a developer workin
    ```bash
    git submodule update --init --recursive
    ```
-> [!TIP]
->
-> To get more information on how `git submodules` are used to structure bigger software projects, read the this [Github blog entry](https://github.blog/open-source/git/working-with-submodules/) on this topic.
+
+   > [!TIP]
+   >
+   > To get more information on how `git submodules` are used to structure bigger software projects, read this [GitHub blog entry](https://github.blog/open-source/git/working-with-submodules/) on this topic.
 
 1. Add local plugins
 
@@ -113,13 +114,13 @@ In this example, we'll set up the development environment for a developer workin
    nomad-parser-plugins-electronic = { workspace = true }
    ```
 
- > [!NOTE]
- > You can also use `uv` to install a specific branch of the plugin without adding a submodule locally.
- >
- > ```bash
- > uv add https://github.com/FAIRmat-NFDI/nomad-measurements.git --branch <specific-branch-name>
- > ```
- > This command will not include the plugin in the `packages/` folder, and hence this plugin will not be editable.
+   > [!NOTE]
+   > You can also use `uv` to install a specific branch of the plugin without adding a submodule locally.
+   >
+   > ```bash
+   > uv add https://github.com/FAIRmat-NFDI/nomad-measurements.git --branch <specific-branch-name>
+   > ```
+   > This command will not include the plugin in the `packages/` folder, and hence this plugin will not be editable.
 
 A complete list of plugins maintained by FAIRmat-NFDI can by found in the [overview page](https://github.com/FAIRmat-NFDI) of the FAIRmat-NFDI organisation.
 
@@ -144,9 +145,9 @@ After the initial setup, here’s how to manage your daily development tasks.
    For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
 
 
-> [!NOTE]
->
-> `uv sync` and `uv run` automatically manages the virtual environment for you. There's no need to manually create or activate a venv. Any `uv run` commands will automatically use the correct environment by default. Read more about `uv` commands to manage the dependencies [here](https://docs.astral.sh/uv/concepts/projects/#managing-dependencies).
+   > [!NOTE]
+   >
+   > `uv sync` and `uv run` automatically manages the virtual environment for you. There's no need to manually create or activate a venv. Any `uv run` commands will automatically use the correct environment by default. Read more about `uv` commands to manage the dependencies [here](https://docs.astral.sh/uv/concepts/projects/#managing-dependencies).
 
 1. Run the NOMAD API app and new GUI (equivalent to running `uv run nomad admin run appworker --dev`):
 
@@ -163,9 +164,9 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv run poe gui start
    ```
 
-> [!TIP]
->
-> `uv run poe gui` maps to `yarn run`, so you can replace `start` with commands such as `test` or `build`.
+   > [!TIP]
+   >
+   > `uv run poe gui` maps to `yarn run`, so you can replace `start` with commands such as `test` or `build`.
 
 1. [Optional] Run the docs server (only if you wish to run the documentation server):
 
@@ -203,9 +204,9 @@ Now, everytime you want to start the docs server, run the following:
 
    This allows you to run tests for a specific parser or package. For running tests across all packages, simply repeat the command for each directory.
 
-> [!TIP]
->
-> To run tests for a specific package in an isolated venv use: `uv run --exact --all-extras --package plugin_a --directory packages/plugin_a pytest`
+   > [!TIP]
+   >
+   > To run tests for a specific package in an isolated venv use: `uv run --exact --all-extras --package plugin_a --directory packages/plugin_a pytest`
 
 1. Linting & code formatting
 
