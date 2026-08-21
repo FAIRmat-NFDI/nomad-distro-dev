@@ -140,7 +140,7 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv run poe setup
    ```
 
-   As part of the setup command, a `nomad.yaml` config file will be created. This file is used to configure NOMAD and will be placed in the top-level directory of your repository, where all commands are executed from. The new GUI requires neither Node.js nor a separate setup command.
+   As part of the setup command, a `nomad.yaml` config file will be created. This file is used to configure NOMAD and will be placed in the top-level directory of your repository, where all commands are executed from. The new GUI is still in beta and requires neither Node.js nor a separate setup command.
 
    For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
 
