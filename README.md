@@ -190,11 +190,23 @@ After the initial setup, here’s how to manage your daily development tasks.
    uv run poe docs
    ```
 
-1. [Optional] Run the remote tools hub server (only if you wish to use the remote tools hub):
+1. [Optional] Run the remote tools hub container (only if you wish to use NORTH):
+   1. [Once] Generate `.env.north`. This gitignored environement file contains OAuth/session secrets for the hub container.
 
-   ```bash
-   uv run poe hub
-   ```
+      ```bash
+      uv run poe north-env
+      ```
+
+   1. Start the hub container (it won't start via the plain `uv run poe docker`/`poe setup`
+      commands, as it is opt-in):
+
+      ```bash
+      docker compose up -d north
+      ```
+
+      The `app`/`worker` NOMAD processes still run on the host as usual
+      (`uv run poe start`), not inside docker-compose — only the hub itself is
+      containerized.
 
 1. Running tests
 

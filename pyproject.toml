@@ -59,6 +59,24 @@ if not os.path.exists("nomad.yaml"):
 """
 interpreter = "python"
 
+[tool.poe.tasks.north-env]
+shell = """
+import os, secrets
+
+if not os.path.exists(".env.north"):
+    with open(".env.north", "w") as f:
+        f.write(
+            'KEYCLOAK_URL="https://nomad-lab.eu/fairdi/keycloak"\\n'
+            'KEYCLOAK_REALM="fairdi_nomad_test"\\n'
+            'OAUTH_CLIENT_ID="nomad_public"\\n'
+            'OAUTH_CLIENT_SECRET=""\\n'
+            'OAUTH_CALLBACK_URL="http://localhost:9000/nomad-oasis/north/hub/oauth_callback"\\n'
+            "SERVICE_API_TOKEN='secret-token'\\n"
+            f"JUPYTERHUB_CRYPT_KEY='{secrets.token_hex(32)}'\\n"
+        )
+"""
+interpreter = "python"
+
 [tool.poe.tasks.gui-env]
 cmd = "python -W ignore -m nomad.cli dev gui-env"
 capture_stdout = "packages/nomad-FAIR/gui/.env.development"
