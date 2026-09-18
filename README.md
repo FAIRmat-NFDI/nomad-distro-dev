@@ -204,10 +204,6 @@ After the initial setup, here’s how to manage your daily development tasks.
       docker compose up -d north
       ```
 
-      The `app`/`worker` NOMAD processes still run on the host as usual
-      (`uv run poe start`), not inside docker-compose — only the hub itself is
-      containerized.
-
 1. Running tests
 
    To run tests across the project, use the `uv run` command to execute `pytest` in the relevant directory. For instance:
