@@ -114,6 +114,28 @@ In this example, we'll set up the development environment for a developer workin
    nomad-parser-plugins-electronic = { workspace = true }
    ```
 
+<details>
+<summary><b>Advanced: Dependency Issues</b></summary>
+
+- **Overriding a dependent's version pin.** When adding a local project, another package in the tree may pin one of its dependencies to a released version. That pin fights the local workspace source, so `uv` won't use your local copy and resolution fails. Add an **unconstrained** override so `uv` drops every dependent's pin and falls back to the local checkout:
+
+  ```toml
+  [tool.uv.sources]
+  nomad-lab = { workspace = true }   # already present — points at packages/nomad-FAIR
+
+  [tool.uv]
+  override-dependencies = ["nomad-lab"]
+  ```
+
+  Read more about `override-dependencies` in the uv reference [guide](https://docs.astral.sh/uv/reference/settings/#override-dependencies). Here are some trade-offs to be aware of when using overrides:
+
+  - It drops the version specifier from **every** dependent — direct and transitive. A package that pinned `nomad-lab>=X` for an API added in `X` silently resolves to whatever the local checkout provides, so functionality can break in subtle ways.
+  - `uv` also stops flagging version conflicts and never reports which pins it overrode, so incompatibilities surface later as runtime errors with no obvious cause.
+
+  Prefer a constrained override (`override-dependencies = ["nomad-lab==<local-version>"]`) when you can name the local version, so incompatible consumers still fail loudly. Use overrides sparingly.
+
+</details>
+
    > [!NOTE]
    > You can also use `uv` to install a specific branch of the plugin without adding a submodule locally.
    >
