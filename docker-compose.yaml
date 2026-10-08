@@ -62,8 +62,46 @@ services:
       - 7233:7233
       - 8080:8233
 
+  north:
+    profiles: ["north"]
+    restart: unless-stopped
+    image: ghcr.io/fairmat-nfdi/nomad-north:main
+    platform: linux/amd64
+    container_name: nomad_oasis_north
+    environment:
+      NOMAD_API_URL: "http://host.docker.internal:8000/nomad-oasis/api/v1"
+      DOCKER_PREFIX: "nomad-oasis-north"
+      DOCKER_NETWORK: "nomad_oasis_network"
+    env_file:
+      - ./.env.north
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+      - "nomad_north:/data"
+    ports:
+      - 9000:9000
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "--fail",
+          "--silent",
+          "http://localhost:9000/nomad-oasis/north/hub/health",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 10s
+
 volumes:
   nomad_mongo:
   nomad_mongo_config:
   nomad_elastic:
   nomad_temporal:
+  nomad_north:
+
+networks:
+  default:
+    name: nomad_oasis_network

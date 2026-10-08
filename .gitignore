@@ -126,6 +126,7 @@ celerybeat.pid
 # Environments
 .pyenv
 .env
+.env.north
 .venv
 env/
 venv/
