@@ -27,7 +27,7 @@ Below are instructions for how to create a dev environment for developing [nomad
    cd nomad-distro-dev
    ```
 
-1. Run the docker containers with `docker compose` in [detached](https://docs.docker.com/guides/language/golang/run-containers/#run-in-detached-mode) (`--detach` or `-d`) mode.
+1. Run the docker containers with `docker compose` in [detached](https://docs.docker.com/reference/cli/docker/compose/up/) (`--detach` or `-d`) mode.
 
    ```sh
    docker compose up -d
@@ -155,6 +155,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 >
 > You can use `uv tool install poethepoet` to install it as a CLI tool, 
 > allowing you to run commands directly with `poe ...` (e.g., `poe start` instead of `uv run poe start`).
+> The tasks need poethepoet 0.37.0 or newer; if you installed it earlier, run `uv tool upgrade poethepoet`.
 
 1. Update the environment (this installs the necessary dependencies, including the new GUI):
 
@@ -164,14 +165,14 @@ After the initial setup, here’s how to manage your daily development tasks.
 
    As part of the setup command, a `nomad.yaml` config file will be created. This file is used to configure NOMAD and will be placed in the top-level directory of your repository, where all commands are executed from. The new GUI is still in beta and requires neither Node.js nor a separate setup command.
 
-   For more information on configuration options, refer to the detailed [nomad configuration docs](https://nomad-lab.eu/prod/v1/staging/docs/reference/config.html#setting-values-from-a-nomadyaml).
+   For more information on configuration options, refer to the detailed [nomad configuration docs](https://docs.nomad-lab.eu/reference/config.html#configuration-sources).
 
 
    > [!NOTE]
    >
    > `uv sync` and `uv run` automatically manages the virtual environment for you. There's no need to manually create or activate a venv. Any `uv run` commands will automatically use the correct environment by default. Read more about `uv` commands to manage the dependencies [here](https://docs.astral.sh/uv/concepts/projects/#managing-dependencies).
 
-1. Run the NOMAD API app and new GUI (equivalent to running `uv run nomad admin run appworker --dev`):
+1. Run the NOMAD API app and new GUI (equivalent to running `uv run nomad admin run appworker --dev` with `NOMAD_SERVICES_MODE=development` set):
 
    ```bash
    uv run poe start
@@ -230,7 +231,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 
    > [!TIP]
    >
-   > To run tests for a specific package in an isolated venv use: `uv run --exact --all-extras --package plugin_a --directory packages/plugin_a pytest`
+   > To run tests for a specific package with only its own dependencies installed, use: `uv run --exact --all-extras --package plugin_a --directory packages/plugin_a pytest`. This uses the shared `.venv` and removes everything `plugin_a` doesn't need, such as `nomad-gui` and other plugins, until the next `uv run` or `uv sync`.
 
 1. Linting & code formatting
 
