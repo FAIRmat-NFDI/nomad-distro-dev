@@ -231,7 +231,7 @@ After the initial setup, here’s how to manage your daily development tasks.
 
    > [!TIP]
    >
-   > To run tests for a specific package with only its own dependencies installed, use: `uv run --exact --all-extras --package plugin_a --directory packages/plugin_a pytest`. This uses the shared `.venv` and removes everything `plugin_a` doesn't need, such as `nomad-gui` and other plugins, until the next `uv run` or `uv sync`.
+   > To run tests for a specific package with only its own dependencies installed, use: `uv run --exact --all-extras --package plugin_a --directory packages/plugin_a pytest`. This uses the shared `.venv` and removes everything `plugin_a` doesn't need, such as `nomad-gui` and other plugins, until the next `uv run` or `uv sync`. On Windows, first stop any running `poe` tasks (such as `uv run poe start`), because Windows cannot remove files that are in use.
 
 1. Linting & code formatting
 
