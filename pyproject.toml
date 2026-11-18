@@ -59,6 +59,54 @@ if not os.path.exists("nomad.yaml"):
 """
 interpreter = "python"
 
+[tool.poe.tasks.north]
+shell = """
+import os, re, secrets, subprocess, sys
+
+command = "$POE_EXTRA_ARGS".split()
+if command == ["setup"]:
+    import yaml
+
+    if os.path.exists(".env.north"):
+        print(".env.north already exists, leaving it as is")
+        sys.exit(0)
+
+    with open("nomad.yaml") as f:
+        config = yaml.safe_load(f) or {}
+
+    keycloak = config.get("keycloak", {})
+    north = config.get("north", {})
+    services = config.get("services", {})
+
+    server_url = keycloak.get(
+        "server_url",
+        "https://nomad-lab.eu/fairdi/keycloak/auth",
+    )
+    keycloak_url = re.sub(r"/auth/?$", "", server_url)
+
+    hub_port = north.get("hub_port", 9000)
+    base_path = services.get("api_base_path", "/nomad-oasis")
+
+    with open(".env.north", "w") as f:
+        f.write(
+            f'KEYCLOAK_URL="{keycloak_url}"\n'
+            f'KEYCLOAK_REALM="{keycloak.get("realm_name", "fairdi_nomad_prod")}"\n'
+            'OAUTH_CLIENT_ID="nomad_public"\n'
+            'OAUTH_CLIENT_SECRET=""\n'
+            f'OAUTH_CALLBACK_URL="http://localhost:{hub_port}{base_path}/north/hub/oauth_callback"\n'
+            'SERVICE_API_TOKEN="secret-token"\n'
+            f'JUPYTERHUB_CRYPT_KEY="{secrets.token_hex(32)}"\n'
+        )
+    print("Created .env.north")
+
+elif command == ["start"]:
+    subprocess.run(["docker", "compose", "up", "north"], check=True)
+
+else:
+    sys.exit("Usage: uv run poe north setup|start")
+"""
+interpreter = "python"
+
 [tool.poe.tasks.gui-env]
 cmd = "python -W ignore -m nomad.cli dev gui-env"
 capture_stdout = "packages/nomad-FAIR/gui/.env.development"
