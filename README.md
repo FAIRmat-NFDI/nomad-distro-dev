@@ -41,50 +41,25 @@ Below are instructions for how to create a dev environment for developing [nomad
 
 ### Upgrading MongoDB from 5.0 to 8.0
 
-MongoDB holds NOMAD data such as users and upload metadata. To keep this data, upgrade the existing database in order: **5.0 → 6.0 → 7.0 → 8.0**. See the [NOMAD Oasis MongoDB migration guide](https://docs.nomad-lab.eu/develop/howto/oasis/migrate/v1.4.2.html#mongodb-migration-v506-to-v8x) for the Oasis procedure.
+Follow the [NOMAD Oasis MongoDB migration guide](https://docs.nomad-lab.eu/develop/howto/oasis/migrate/v1.4.2.html#mongodb-migration-v506-to-v8x) for the sequential upgrade and verification. MongoDB stores NOMAD data such as users and upload metadata: verify your backup before upgrading, keep the existing volumes and upload files, and do not run `docker compose down -v`.
 
-MongoDB's **feature compatibility version (FCV)** controls whether the database can use features that are incompatible with older versions. Changing the Docker image upgrades the server but does not update this setting. After starting each new version, set and verify its FCV before moving on to the next version.
+For this dev deployment, adapt the Oasis instructions as follows:
 
-> [!WARNING]
-> Do NOT start MongoDB 8.0 on the MongoDB 5.0 data volume, skip an intermediate version, or run `docker compose down -v`. Back up and verify the database before upgrading, and keep the existing MongoDB volumes and NOMAD upload files.
-
-1. Stop the local NOMAD app and worker, but keep MongoDB running. From the repository root, using the same Compose project as the existing deployment, take a backup:
+1. Stop the local NOMAD app and worker, but leave MongoDB running. This repo does not include the Oasis backup script. From the repository root, create a dump and verify it by restoring it to a separate test instance:
 
    ```sh
    docker compose exec -T mongo mongodump --archive --gzip > mongo-before-upgrade.archive.gz
    ```
 
-   Make sure the dump succeeded and verify it by restoring it to a separate test instance. Before proceeding, check that the current FCV is `5.0` (`mongo` is the shell in the original `mongo:5.0.6` image):
+1. Download `upgrade_mongo.py` as described in the Oasis guide. Use `-c nomad_mongo` instead of `-c nomad_oasis_mongo`:
 
    ```sh
-   docker compose exec mongo mongo --quiet --eval 'db.adminCommand({getParameter: 1, featureCompatibilityVersion: 1})'
+   python3 upgrade_mongo.py -c nomad_mongo -f docker-compose.yaml --from-version 5.0.6
    ```
 
-1. In `docker-compose.yaml`, change only the `mongo` service image, starting with `mongo:6.0`. Run these commands after each image change, leaving the volume mappings unchanged:
+   Run this from the repository root with the same Compose project as your existing deployment. The script edits the MongoDB image tag in `docker-compose.yaml` at each step, so start with `mongo:5.0.6` still in the file and do not switch it to `mongo:8.0` first.
 
-   ```sh
-   docker compose stop mongo
-   docker compose up -d --no-deps mongo
-   docker compose exec mongo mongosh --quiet --eval 'db.version()'
-   ```
-
-   Wait until MongoDB is ready and reports the expected version, then run **only the FCV command for that version**:
-
-   | Image | Command |
-   | --- | --- |
-   | `mongo:6.0` | `docker compose exec mongo mongosh --eval 'db.adminCommand({setFeatureCompatibilityVersion: "6.0"})'` |
-   | `mongo:7.0` | `docker compose exec mongo mongosh --eval 'db.adminCommand({setFeatureCompatibilityVersion: "7.0", confirm: true})'` |
-   | `mongo:8.0` | `docker compose exec mongo mongosh --eval 'db.adminCommand({setFeatureCompatibilityVersion: "8.0", confirm: true})'` |
-
-   Verify the FCV after each change:
-
-   ```sh
-   docker compose exec mongo mongosh --quiet --eval 'db.adminCommand({getParameter: 1, featureCompatibilityVersion: 1})'
-   ```
-
-   Once the FCV matches, repeat this step with `mongo:7.0`, then `mongo:8.0`. Stop and investigate if any command fails or the versions do not match.
-
-1. Once both the server and FCV are at `8.0`, restart NOMAD with `uv run poe start` and verify that existing uploads are still accessible. If you're also upgrading Elasticsearch, finish the MongoDB upgrade before rebuilding the search index.
+1. Verify the MongoDB server version and feature compatibility version using the Oasis guide's commands. Then restart NOMAD with `uv run poe start` and check that your existing uploads are accessible. If you're also upgrading Elasticsearch, finish the MongoDB upgrade before rebuilding the search index.
 
 ## Developing nomad + plugins locally.
 
