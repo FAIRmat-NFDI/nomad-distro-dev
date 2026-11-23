@@ -39,6 +39,58 @@ Below are instructions for how to create a dev environment for developing [nomad
    docker compose down
    ```
 
+### Upgrading Elasticsearch from 7 to 9
+
+For an existing dev deployment, replace the Elasticsearch 7 container with Elasticsearch 9 and give it a fresh data volume. Removing the container alone is not enough as Docker keeps the named volume, and Elasticsearch 9 cannot use the Elasticsearch 7 data directory directly.
+
+> [!WARNING]
+> This is a dev-only reset, not a data migration. The new search index starts empty, and data stored only in Elasticsearch 7 is not carried over. If you need to preserve that data, back it up and see the [NOMAD Oasis migration guide](https://docs.nomad-lab.eu/develop/howto/oasis/migrate/v2.0.html#elasticsearch-migration-v717-to-v95). Do not use `docker compose down -v`: it also removes other Compose volumes, including MongoDB.
+
+1. Stop the local NOMAD app and worker, then remove only the Elasticsearch container. Run these commands from the repository root:
+
+   ```sh
+   docker compose stop elastic
+   docker compose rm -f elastic
+   ```
+
+1. In `docker-compose.yaml`, set the `elastic` service's image to `docker.elastic.co/elasticsearch/elasticsearch:9.5.0` if it still points to Elasticsearch 7. Use a new volume name, such as `nomad_elastic_9`: change the `elastic` mount to `nomad_elastic_9:/usr/share/elasticsearch/data` and rename the `nomad_elastic` key under the top-level `volumes:` section to `nomad_elastic_9`. This leaves the old Elasticsearch volume on disk without mounting it in the new container.
+
+1. Start the infrastructure and verify that `curl -fsS http://localhost:9200` reports a `9.x` version:
+
+   ```sh
+   docker compose up -d
+   curl -fsS http://localhost:9200
+   ```
+
+   An `Empty reply from server` can happen while Elasticsearch is starting, even if Docker reports the container as `Up`, in which case wait a few seconds and retry.
+
+1. Configure NOMAD to use Elasticsearch 9. Add `version: '9'` to the `elastic:` section of your local `nomad.yaml`, i.e.:
+
+   ```yaml
+   elastic:
+     version: '9'
+   ```
+
+1. Run the command below from the repository root to reindex existing MongoDB data and upload files.
+
+   ```sh
+   uv run nomad admin uploads index
+   ```
+
+1. Restart NOMAD with `uv run poe start`.
+
+1. **Optional cleanup:** After verifying that NOMAD starts and the expected entries are searchable in Elasticsearch 9, remove the old Elasticsearch 7 volume if you no longer need it. **This permanently deletes the old index.** First list the matching volumes:
+
+   ```sh
+   docker volume ls --filter label=com.docker.compose.volume=nomad_elastic
+   ```
+
+   Identify the volume for your Compose project (usually `<project>_nomad_elastic`, for example `dev_nomad_elastic`). Replace the example name below with the actual name. Do not remove the new `nomad_elastic_9` volume.
+
+   ```sh
+   docker volume rm dev_nomad_elastic
+   ```
+
 ## Developing nomad + plugins locally.
 
 This guide explains how to set up a streamlined development environment for nomad-lab and its plugins using [`uv` workspaces](https://docs.astral.sh/uv/concepts/workspaces/#workspaces). This approach eliminates the need for multiple `pip install` commands by leveraging a monorepo and a single installation step.
