@@ -39,6 +39,53 @@ Below are instructions for how to create a dev environment for developing [nomad
    docker compose down
    ```
 
+### Upgrading MongoDB from 5.0 to 8.0
+
+MongoDB holds NOMAD data such as users and upload metadata. To keep this data, upgrade the existing database in order: **5.0 → 6.0 → 7.0 → 8.0**. See the [NOMAD Oasis MongoDB migration guide](https://docs.nomad-lab.eu/develop/howto/oasis/migrate/v1.4.2.html#mongodb-migration-v506-to-v8x) for the Oasis procedure.
+
+MongoDB's **feature compatibility version (FCV)** controls whether the database can use features that are incompatible with older versions. Changing the Docker image upgrades the server but does not update this setting. After starting each new version, set and verify its FCV before moving on to the next version.
+
+> [!WARNING]
+> Do NOT start MongoDB 8.0 on the MongoDB 5.0 data volume, skip an intermediate version, or run `docker compose down -v`. Back up and verify the database before upgrading, and keep the existing MongoDB volumes and NOMAD upload files.
+
+1. Stop the local NOMAD app and worker, but keep MongoDB running. From the repository root, using the same Compose project as the existing deployment, take a backup:
+
+   ```sh
+   docker compose exec -T mongo mongodump --archive --gzip > mongo-before-upgrade.archive.gz
+   ```
+
+   Make sure the dump succeeded and verify it by restoring it to a separate test instance. Before proceeding, check that the current FCV is `5.0` (`mongo` is the shell in the original `mongo:5.0.6` image):
+
+   ```sh
+   docker compose exec mongo mongo --quiet --eval 'db.adminCommand({getParameter: 1, featureCompatibilityVersion: 1})'
+   ```
+
+1. In `docker-compose.yaml`, change only the `mongo` service image, starting with `mongo:6.0`. Run these commands after each image change, leaving the volume mappings unchanged:
+
+   ```sh
+   docker compose stop mongo
+   docker compose up -d --no-deps mongo
+   docker compose exec mongo mongosh --quiet --eval 'db.version()'
+   ```
+
+   Wait until MongoDB is ready and reports the expected version, then run **only the FCV command for that version**:
+
+   | Image | Command |
+   | --- | --- |
+   | `mongo:6.0` | `docker compose exec mongo mongosh --eval 'db.adminCommand({setFeatureCompatibilityVersion: "6.0"})'` |
+   | `mongo:7.0` | `docker compose exec mongo mongosh --eval 'db.adminCommand({setFeatureCompatibilityVersion: "7.0", confirm: true})'` |
+   | `mongo:8.0` | `docker compose exec mongo mongosh --eval 'db.adminCommand({setFeatureCompatibilityVersion: "8.0", confirm: true})'` |
+
+   Verify the FCV after each change:
+
+   ```sh
+   docker compose exec mongo mongosh --quiet --eval 'db.adminCommand({getParameter: 1, featureCompatibilityVersion: 1})'
+   ```
+
+   Once the FCV matches, repeat this step with `mongo:7.0`, then `mongo:8.0`. Stop and investigate if any command fails or the versions do not match.
+
+1. Once both the server and FCV are at `8.0`, restart NOMAD with `uv run poe start` and verify that existing uploads are still accessible. If you're also upgrading Elasticsearch, finish the MongoDB upgrade before rebuilding the search index.
+
 ## Developing nomad + plugins locally.
 
 This guide explains how to set up a streamlined development environment for nomad-lab and its plugins using [`uv` workspaces](https://docs.astral.sh/uv/concepts/workspaces/#workspaces). This approach eliminates the need for multiple `pip install` commands by leveraging a monorepo and a single installation step.
