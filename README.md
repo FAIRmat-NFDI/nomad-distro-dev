@@ -76,28 +76,36 @@ Stop the local NOMAD app and worker before upgrading. Run commands from the repo
 
 Then configure and start NOMAD as described below. Skip the migration steps.
 
-### Keep your data (migrate both services)
+### Keep your data
 
-1. Follow the [NOMAD Oasis MongoDB migration guide](https://docs.nomad-lab.eu/develop/howto/oasis/migrate/v1.4.2.html#mongodb-migration-v506-to-v8x) first. Keep MongoDB 5.0.6 running for the backup. This repo does not include the Oasis backup script; use this command and verify the archive by restoring it to a separate test instance:
+Follow the section for the service you're upgrading. If you're upgrading both, migrate MongoDB first.
+
+#### Migrate MongoDB from 5.0 to 8.0
+
+Follow the [NOMAD Oasis MongoDB migration guide](https://docs.nomad-lab.eu/develop/howto/oasis/migrate/v1.4.2.html#mongodb-migration-v506-to-v8x) with the following adjustments for this repo:
+
+1. Keep MongoDB 5.0.6 running for the backup. This repo does not include the Oasis backup script; use this command and verify the archive by restoring it to a separate test instance:
 
    ```sh
    docker compose exec -T mongo mongodump --archive --gzip > mongo-before-upgrade.archive.gz
    ```
 
-   Leave `mongo:5.0.6` in `docker-compose.yaml` before running the upgrade script; it updates the image at each step. Use this repo's container name, `nomad_mongo`:
+1. Leave `mongo:5.0.6` in `docker-compose.yaml` before running the upgrade script; it updates the image at each step. Use this repo's container name, `nomad_mongo`:
 
    ```sh
    curl -fLO https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR/-/snippets/188/raw/main/upgrade_mongo.py &&
      python3 upgrade_mongo.py -c nomad_mongo -f docker-compose.yaml --from-version 5.0.6
    ```
 
-   Verify the MongoDB server and feature compatibility versions using the Oasis guide's commands. Keep the MongoDB volumes and NOMAD upload files.
+1. Verify the MongoDB server and feature compatibility versions using the Oasis guide's commands. Keep the MongoDB volumes and NOMAD upload files.
 
-1. Follow the [NOMAD Oasis Elasticsearch migration guide](https://docs.nomad-lab.eu/develop/howto/oasis/migrate/v2.0.html#elasticsearch-migration-v717-to-v95). Back up ES7 and use a separate ES9 volume, such as `nomad_elastic_9`; ES9 cannot use the ES7 data directory directly. If reindexing directly from ES7, set the overlay's external volume name to the actual ES7 volume for your Compose project. If rebuilding from uploads instead, use `uv run nomad admin uploads index` from the repository root in place of the Oasis container command, after configuring NOMAD for ES9 as shown below.
+#### Migrate Elasticsearch from 7 to 9
+
+Follow the [NOMAD Oasis Elasticsearch migration guide](https://docs.nomad-lab.eu/develop/howto/oasis/migrate/v2.0.html#elasticsearch-migration-v717-to-v95). Back up ES7 and use a separate ES9 volume, such as `nomad_elastic_9`; ES9 cannot use the ES7 data directory directly. If reindexing directly from ES7, set the overlay's external volume name to the actual ES7 volume for your Compose project. If rebuilding from uploads instead, use `uv run nomad admin uploads index` from the repository root in place of the Oasis container command, after configuring NOMAD for ES9 as shown below.
 
 ### Configure and start NOMAD
 
-For either path, add this to your local `nomad.yaml` before running any NOMAD commands against ES9:
+If you upgraded Elasticsearch to 9 or started fresh, add this to your local `nomad.yaml` before running any NOMAD commands against ES9. If you only upgraded MongoDB, leave the Elasticsearch setting unchanged.
 
 ```yaml
 elastic:
