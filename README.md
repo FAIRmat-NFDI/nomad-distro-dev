@@ -39,9 +39,22 @@ Below are instructions for how to create a dev environment for developing [nomad
    docker compose down
    ```
 
-### Upgrading MongoDB from 5.0 to 8.0
+<details>
+<summary><strong>Upgrading MongoDB from 5.0 to 8.0</strong></summary>
 
-Follow the [NOMAD Oasis MongoDB migration guide](https://docs.nomad-lab.eu/develop/howto/oasis/migrate/v1.4.2.html#mongodb-migration-v506-to-v8x) for the sequential upgrade and verification. MongoDB stores NOMAD data such as users and upload metadata: verify your backup before upgrading, keep the existing volumes and upload files, and do not run `docker compose down -v`.
+Stop the local NOMAD app and worker before upgrading. Run Compose commands from the repository root with the same Compose project as your existing deployment. **Deleting a volume permanently deletes its data.** Only remove the volumes for the service you want to reset; `docker compose down -v` removes other service volumes too.
+
+**Start fresh:** If you don't need the existing MongoDB data, remove the container and its two volumes. Use `docker volume ls` to confirm the exact volume names and replace the `dev` project examples below with your own:
+
+```sh
+docker compose stop mongo
+docker compose rm -f mongo
+docker volume rm dev_nomad_mongo dev_nomad_mongo_config
+```
+
+Set the `mongo` image to `mongo:8.0` in `docker-compose.yaml`, then run `docker compose up -d mongo` to start with empty volumes. Existing upload files are not deleted, but their MongoDB metadata is lost.
+
+**Keep your data:** Follow the [NOMAD Oasis MongoDB migration guide](https://docs.nomad-lab.eu/develop/howto/oasis/migrate/v1.4.2.html#mongodb-migration-v506-to-v8x) for the sequential upgrade and verification. MongoDB stores NOMAD data such as users and upload metadata: verify your backup before upgrading, keep the existing volumes and upload files, and do not run `docker compose down -v`.
 
 For this dev deployment, adapt the Oasis instructions as follows:
 
@@ -51,15 +64,18 @@ For this dev deployment, adapt the Oasis instructions as follows:
    docker compose exec -T mongo mongodump --archive --gzip > mongo-before-upgrade.archive.gz
    ```
 
-1. Download `upgrade_mongo.py` as described in the Oasis guide. Use `-c nomad_mongo` instead of `-c nomad_oasis_mongo`:
+1. Download and run the Oasis upgrade script. Use `-c nomad_mongo` instead of `-c nomad_oasis_mongo`:
 
    ```sh
-   python3 upgrade_mongo.py -c nomad_mongo -f docker-compose.yaml --from-version 5.0.6
+   curl -fLO https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-FAIR/-/snippets/188/raw/main/upgrade_mongo.py &&
+     python3 upgrade_mongo.py -c nomad_mongo -f docker-compose.yaml --from-version 5.0.6
    ```
 
    Run this from the repository root with the same Compose project as your existing deployment. The script edits the MongoDB image tag in `docker-compose.yaml` at each step, so start with `mongo:5.0.6` still in the file and do not switch it to `mongo:8.0` first.
 
-1. Verify the MongoDB server version and feature compatibility version using the Oasis guide's commands. Then restart NOMAD with `uv run poe start` and check that your existing uploads are accessible. If you're also upgrading Elasticsearch, finish the MongoDB upgrade before rebuilding the search index.
+1. Verify the MongoDB server version and feature compatibility version using the Oasis guide's commands. Restart NOMAD with `uv run poe start` and check that your existing uploads are accessible.
+
+</details>
 
 ## Developing nomad + plugins locally.
 
